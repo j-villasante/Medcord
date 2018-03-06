@@ -1,0 +1,20 @@
+{
+  "hosting": {
+    "public": "./",
+    "ignore": [
+      "**/node_modules/**",
+      "**/src/**",
+      "**/.*",
+      "**/*.json",
+      "**/*.config.js",
+      "**/*.log",
+      "**/*.md"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
