@@ -11,9 +11,9 @@ module.exports = {
     'ecmaVersion': 8
   },
   'rules': {
-    /*'semi': ['error', 'never'],
-    'prefer-arrow-callback': 'error',
-    'no-var': 'error',
-    'prefer-template': 'error'*/
+    // 'semi': ['error', 'never'],
+    // 'prefer-arrow-callback': 'error',
+    // 'no-var': 'error',
+    // 'prefer-template': 'error'
   }
 }

@@ -1,3 +1,60 @@
 <template>
-  <div>busq</div>
+  <div class="container">
+    <div class="row align-items-center justify-content-between">
+      <div class="col-6">
+        <h1 class="my-4">Pacientes</h1>
+      </div>
+      <div class="col-4">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <img src="../assets/icons/ic_search_black_24px.svg">
+            </div>
+          </div>
+          <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Documento">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div v-for="p in patients" class="col-3 patient">
+        <div class="card bg-light mb-3">
+          <div class="card-header"><b>{{p.fatherSurname}} {{p.motherSurname}} </b>{{p.name}}</div>
+          <div class="card-body">
+            <h5 class="card-title"><small>{{p.documentType}}</small> {{p.document}}</h5>
+            <div class="card-text"><b>Telf.:</b> {{p.phone}}</div>
+            <div class="card-text"><b>Nac.:</b> {{p.birthday}}</div>
+            <div class="card-text"><b>Est. C..:</b> {{p.civilStatus}}</div>
+            <div class="card-text"><b>Dir.:</b> {{p.address}}</div>
+            <div class="card-text"><b>Res.:</b> {{p.residence}}</div>
+            <div class="card-text"><b>Nac.:</b> {{p.nacionality}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
+<script>
+import fire from '../fire.js'
+
+const db = fire.firestore()
+
+export default {
+  data: () => ({
+    patients: []
+  }),
+  mounted () {
+    db.collection('patients').get().then(snap => {
+      snap.forEach(doc => {
+        this.patients.push(doc.data())
+      })
+    })
+  }
+}
+</script>
+<style>
+.patient .card {
+  -webkit-box-shadow: 0px 0px 2px 1px rgba(107,107,107,0.2);
+  -moz-box-shadow: 0px 0px 2px 1px rgba(107,107,107,0.2);
+  box-shadow: 0px 0px 2px 1px rgba(107,107,107,0.2);
+}
+</style>

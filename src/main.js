@@ -1,24 +1,21 @@
 import './assets/css/bootstrap-theme.css'
 import 'bootstrap'
 
-import firebase from 'firebase/app'
-import 'firebase/auth'
-
 import Vue from 'vue'
+import Vuelidate from 'vuelidate'
+
 import App from './App.vue'
 import Login from './Login.vue'
 import routes from './routes'
+import fire from './fire.js'
 
-import config from './fire-config.json'
-
-firebase.initializeApp(config)
-
+Vue.use(Vuelidate)
 const app = new Vue({
   el: '#app',
   data: {
     currentView: routes(window.location.pathname).view,
     currentPath: window.location.pathname,
-    logged: firebase.currentUser !== null
+    logged: fire.currentUser !== null
   },
   render (h) {
     if (this.logged) {
@@ -40,7 +37,7 @@ const app = new Vue({
   }
 })
 
-firebase.auth().onAuthStateChanged(user => {
+fire.auth().onAuthStateChanged(user => {
   if (user) {
     app.logged = true
   } else {
