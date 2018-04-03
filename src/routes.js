@@ -3,27 +3,29 @@ import Record from './pages/Record.vue'
 import Search from './pages/Search.vue'
 import notFound from './pages/404.vue'
 
+const routes = {
+  '': {
+    name: 'Busqueda',
+    view: Search
+  },
+  'new': {
+    name: 'new',
+    view: New
+  },
+  'record': {
+    name: 'Historia',
+    view: Record
+  }
+}
+
 export default function (route) {
-  switch (route) {
-    case '/':
-      return {
-        name: 'Busqueda',
-        view: Search
-      }
-    case '/new':
-      return {
-        name: 'new',
-        view: New
-      }
-    case '/record':
-      return {
-        name: 'Historia',
-        view: Record
-      }
-    default:
-      return {
-        name: 'Not found :(',
-        view: notFound
-      }
+  let key = route.split('/')[1]
+  if (routes[key]) {
+    return routes[key]
+  } else {
+    return {
+      name: 'Not found :(',
+      view: notFound
+    }
   }
 }

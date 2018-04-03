@@ -16,9 +16,16 @@
       </div>
     </div>
     <div class="row">
-      <div v-for="p in patients" class="col-3 patient">
-        <div class="card bg-light mb-3">
-          <div class="card-header"><b>{{p.fatherSurname}} {{p.motherSurname}} </b>{{p.name}}</div>
+      <div v-for="p in patients" class="col-4 patient">
+        <div class="card bg-light mb-4">
+          <div class="card-header">
+            <b>{{p.fatherSurname}} {{p.motherSurname}} </b>{{p.name}}
+            <div class="float-right">
+              <vue-link :href="`/record/${p.id}`">
+                <img src="../assets/icons/ic_assignment_black_24px.svg">
+              </vue-link>
+            </div>
+          </div>
           <div class="card-body">
             <h5 class="card-title"><small>{{p.documentType}}</small> {{p.document}}</h5>
             <div class="card-text"><b>Telf.:</b> {{p.phone}}</div>
@@ -34,6 +41,7 @@
   </div>
 </template>
 <script>
+import VueLink from '../components/VueLink.vue'
 import fire from '../fire.js'
 
 const db = fire.firestore()
@@ -45,9 +53,14 @@ export default {
   mounted () {
     db.collection('patients').get().then(snap => {
       snap.forEach(doc => {
-        this.patients.push(doc.data())
+        let data = doc.data()
+        data.id = doc.id
+        this.patients.push(data)
       })
     })
+  },
+  components: {
+    VueLink
   }
 }
 </script>
