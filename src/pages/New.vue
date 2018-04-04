@@ -59,6 +59,35 @@
           </div>
         </div>
         <div class="row">
+          <div class="col-md-8 col-12 form-group">
+            <label>Correo electrónico</label>
+            <input type="text" 
+              class="form-control" 
+              placeholder="Ingrese" 
+              v-model.trim="patient.email" 
+              v-on:blur="$v.patient.email.$touch()"
+              :class="{ 'is-invalid': $v.patient.email.$error }">
+            <div v-if="$v.patient.email.$error">
+              <small class="text-danger" v-if="!$v.patient.email.required">Ingrese un correo.</small>
+              <small class="text-danger" v-if="!$v.patient.email.email">Ingrese un correo válido.</small>
+            </div>
+          </div>
+          <div class="col-md-4 col-12 form-group">
+            <label>Sexo</label>
+            <select class="form-control"
+              v-model.trim="patient.sex" 
+              v-on:blur="$v.patient.sex.$touch()"
+              :class="{ 'is-invalid': $v.patient.sex.$error }">
+              <option selected disabled value="">Seleccione</option>
+              <option value="masculino">Masculino</option>
+              <option value="femenino">Femenino</option>
+            </select>
+            <div v-if="$v.patient.sex.$error">
+              <small class="text-danger" v-if="!$v.patient.sex.required">Seleccione un sexo.</small>
+            </div>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-md-6 col-12 form-group">
             <label>Fecha de nacimiento</label>
             <datepicker 
@@ -161,6 +190,39 @@
             </div>
           </div>
         </div>
+        <h4 class="mt-3">Antecedentes personales</h4>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label>Patológicos</label>
+              <textarea v-model="patient.pathological" class="form-control" rows="2"></textarea>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label>Patológicos</label>
+              <textarea v-model="patient.surgical" class="form-control" rows="2"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2">
+            <label>Alergías</label>
+          </div>
+          <div class="col-10">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="alergies-yes" v-model="patient.alergies" :value="true">
+              <label class="form-check-label" for="alergies-yes">Sí</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="alergies-no" v-model="patient.alergies" :value="false">
+              <label class="form-check-label" for="alergies-no">No</label>
+            </div>
+            <div v-if="$v.patient.alergies.$error">
+              <small class="text-danger" v-if="!$v.patient.alergies.required">Seleccione si tiene alergias.</small>
+            </div>
+          </div>
+        </div>
         <div class="row my-3">
           <div class="col">
             <button type="submit" class="btn btn-primary" v-on:click="submit" :disabled="saveBut.disabled">{{saveBut.message}}</button>
@@ -172,7 +234,7 @@
 </template>
 <script>
 import Datepicker from 'vuejs-datepicker'
-import { required, minLength, numeric } from 'vuelidate/lib/validators'
+import { required, minLength, numeric, email, or } from 'vuelidate/lib/validators'
 import fire from '../fire.js'
 
 const db = fire.firestore()
@@ -216,7 +278,12 @@ export default {
       document: '',
       address: '',
       residence: '',
-      nacionality: ''
+      nacionality: '',
+      sex: '',
+      email: '',
+      pathological: '',
+      surgical: '',
+      alergies: null
     }
   }),
   components: {
@@ -243,7 +310,10 @@ export default {
       document: { required },
       address: { required },
       residence: { required },
-      nacionality: { required }
+      nacionality: { required },
+      sex: { required },
+      email: { required, email },
+      alergies: { required }
     }
   }
 }
