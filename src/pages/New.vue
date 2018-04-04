@@ -184,6 +184,7 @@ export default {
       if (!this.$v.patient.$invalid) {
         this.saveBut.message = '•••'
         this.saveBut.disabled = true
+        this.patient.createdAt = new Date()
         db.collection('patients').add(this.patient)
           .then(() => {
             this.$root.setRoute('/')

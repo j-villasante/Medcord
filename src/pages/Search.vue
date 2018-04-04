@@ -11,7 +11,7 @@
               <img src="../assets/icons/ic_search_black_24px.svg">
             </div>
           </div>
-          <input type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Documento">
+          <input v-model="searchValue" type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Documento">
         </div>
       </div>
     </div>
@@ -43,21 +43,62 @@
 <script>
 import VueLink from '../components/VueLink.vue'
 import fire from '../fire.js'
+import Fuse from 'fuse.js'
 
 const db = fire.firestore()
+const fuseOptions = {
+  shouldSort: true,
+  threshold: 0.6,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 1,
+  keys: [
+    'fatherSurname',
+    'motherSurname'
+  ]
+}
+
+let fuse = null
+let bk = null
 
 export default {
   data: () => ({
-    patients: []
+    patients: [],
+    searchValue: ''
   }),
+  watch: {
+    searchValue (val) {
+      if (val === '') {
+        this.patients = bk
+      } else {
+        this.patients = fuse.search(val)        
+      }
+    }
+  },
   mounted () {
-    db.collection('patients').get().then(snap => {
-      snap.forEach(doc => {
-        let data = doc.data()
-        data.id = doc.id
-        this.patients.push(data)
+    let patientsRef = db.collection('patients')
+    let acumulator = (list = []) => {
+      return (snap) => {
+        snap.forEach(doc => {
+          let data = doc.data()
+          data.id = doc.id
+          list.push(data)
+        })
+        return list
+      }
+    }
+    patientsRef.orderBy('createdAt', 'desc').limit(20).get()
+      .then(acumulator(this.patients))
+      .then(list => {
+        bk = list
       })
-    })
+
+    db.collection('patients').get()
+      .then(acumulator())
+      .then(list => {
+        fuse = new Fuse(list, fuseOptions)
+      })
   },
   components: {
     VueLink
