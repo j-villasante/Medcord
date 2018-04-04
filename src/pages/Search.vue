@@ -72,7 +72,7 @@ export default {
       if (val === '') {
         this.patients = bk
       } else {
-        this.patients = fuse.search(val)        
+        this.patients = fuse.search(val)
       }
     }
   },
