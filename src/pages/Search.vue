@@ -27,13 +27,16 @@
             </div>
           </div>
           <div class="card-body">
-            <h5 class="card-title"><small>{{p.documentType}}</small> {{p.document}}</h5>
-            <div class="card-text"><b>Telf.:</b> {{p.phone}}</div>
-            <div class="card-text"><b>Nac.:</b> {{p.birthday}}</div>
-            <div class="card-text"><b>Est. C..:</b> {{p.civilStatus}}</div>
-            <div class="card-text"><b>Dir.:</b> {{p.address}}</div>
-            <div class="card-text"><b>Res.:</b> {{p.residence}}</div>
-            <div class="card-text"><b>Nac.:</b> {{p.nacionality}}</div>
+            <div class="card-text row">
+              <div class="col-6">
+                <span v-if="p.sex === 'masculino'">Hombre</span>
+                <span v-else>Mujer</span>
+                <span>de {{p.age}} años</span>
+              </div>              
+              <div class="col-6">
+                <h5 class="text-right"><small>{{p.documentType}}</small> {{p.document}}</h5>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -44,6 +47,7 @@
 import VueLink from '../components/VueLink.vue'
 import fire from '../fire.js'
 import Fuse from 'fuse.js'
+import moment from 'moment'
 
 const db = fire.firestore()
 const fuseOptions = {
@@ -83,6 +87,9 @@ export default {
         snap.forEach(doc => {
           let data = doc.data()
           data.id = doc.id
+          data.birthday = moment(data.birthday)
+
+          data.age = moment().diff(data.birthday, 'years')
           list.push(data)
         })
         return list

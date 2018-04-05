@@ -8,8 +8,7 @@
     <div class="row">
       <div class="col-md-3">
         <div v-if="loaded" class="col-12">
-          <div class="row"><b>Dirección</b></div>
-          <div class="row mb-2">{{patient.address}}</div>
+          <field-edit title="Dirección" :value="patient.address" name="address" :document="dbDocument" />
           <div class="row"><b>Fecha de nacimiento</b></div>
           <div class="row mb-2">{{patient.birthday}}</div>
           <div class="row"><b>Estado civil</b></div>
@@ -63,6 +62,7 @@
 </template>
 <script>
 import fire from '../fire.js'
+import FieldEdit from '../components/FieldEdit.vue'
 import moment from 'moment'
 
 const db = fire.firestore()
@@ -73,7 +73,8 @@ export default {
     patient: {},
     loaded: false,
     newEntry: '',
-    entries: []
+    entries: [],
+    dbDocument: null
   }),
   methods: {
     addEntry () {
@@ -89,7 +90,7 @@ export default {
   mounted () {
     id = location.pathname.split('/')[2]
     let patientDoc = db.collection('patients').doc(id)
-    patientDoc.get().then(doc => {
+    patientDoc.onSnapshot(doc => {
       this.patient = doc.data()
       this.patient.birthday = `${this.patient.birthday.getDate()}/${this.patient.birthday.getMonth() + 1}/${this.patient.birthday.getFullYear()}`
       this.loaded = true
@@ -105,6 +106,10 @@ export default {
         })
       })
     })
+    this.dbDocument = patientDoc
+  },
+  components: {
+    FieldEdit
   }
 }
 </script>
