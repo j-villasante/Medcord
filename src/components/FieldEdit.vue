@@ -1,13 +1,22 @@
 <template>
-  <div>
-    <div class="row"><b>{{title}}</b></div>
-    <div v-if="isEditMode" class="row mb-2">
-      <input type="text" class="form-control col-10 my-2" v-model="newValue">
-      <img class="col-2" src="../assets/icons/ic_save_black_24px.svg" v-on:click="onSaveClick">
+  <div class="row">
+    <div><b>{{title}}</b></div>
+    <div v-if="isEditMode" class="mb-2 full-width">
+      <div class="row">
+        <div class="col-10">
+          <textarea v-if="isTextArea" class="form-control my-2" v-model="newValue"></textarea>
+          <input v-else type="text" class="form-control my-2" v-model="newValue">          
+        </div>
+        <img class="col-2" src="../assets/icons/ic_save_black_24px.svg" v-on:click="onSaveClick">
+      </div>
     </div>
-    <div v-else class="row mb-2">
-      <div>{{value}}</div>
-      <img class="col-2" src="../assets/icons/ic_mode_edit_black_24px.svg" v-on:click="onEditClick">
+    <div v-else class="mb-2 full-width">
+      <div class="row">
+        <div class="col-10">{{value}}</div>
+        <div class="col-2">
+          <img src="../assets/icons/ic_mode_edit_black_24px.svg" v-on:click="onEditClick">
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -28,6 +37,9 @@ export default {
     },
     document: {
       required: true
+    },
+    isTextArea: {
+      type: Boolean
     }
   },
   data: () => ({
@@ -53,5 +65,9 @@ export default {
 <style scoped>
 input {
   height: 30px;
+}
+
+.full-width {
+  width: 100%;  
 }
 </style>

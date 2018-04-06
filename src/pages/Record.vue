@@ -1,37 +1,45 @@
 <template>
-  <div class="container">
+  <div v-if="loaded" class="container">
     <div class="row">
-      <div class="col-6">
-        <h3 class="my-4">{{patient.fatherSurname}} {{patient.motherSurname}} <small>{{patient.name}}</small></h3>
-      </div>
+      <h3 class="mt-4">{{patient.fatherSurname}} {{patient.motherSurname}} <small>{{patient.name}}</small></h3>
     </div>
+    <div class="text-right text-muted"><small>Creado el {{createdAt}}</small></div>
     <div class="row">
       <div class="col-md-3">
-        <div v-if="loaded" class="col-12">
-          <field-edit title="Dirección" :value="patient.address" name="address" :document="dbDocument" />
+        <div class="col-12">
+          <h4 class="text-center">Antecedentes</h4>
+          <div class="row"><b>Alergías</b></div>
+          <div class="row mb-2">{{patient.alergies ? 'Si' : 'No'}}</div>
+          <field-edit title="Patológicos" :value="patient.pathological" name="pathological" :document="dbDocument" :isTextArea="true" />
+          <field-edit title="Cirúrgicos" :value="patient.surgical" name="surgical" :document="dbDocument" :isTextArea="true" />
+
+          <div class="line-util"></div>
+
+          <div class="row"><b>Sexo</b></div>
+          <div class="row mb-2">{{patient.sex}}</div>
           <div class="row"><b>Fecha de nacimiento</b></div>
-          <div class="row mb-2">{{patient.birthday}}</div>
-          <div class="row"><b>Estado civil</b></div>
-          <div class="row mb-2">{{patient.civilStatus}}</div>
+          <div class="row mb-2">{{patient.birthday}} ({{patient.age}} años)</div>
           <div class="row mb-2">
             <div><b>{{patient.documentType}}</b> {{patient.document}}</div>
           </div>
-          <div class="row"><b>Nacionalidad</b></div>
-          <div class="row mb-2">{{patient.nacionality}}</div>
-          <div class="row"><b>Telefono</b></div>
-          <div class="row mb-2">{{patient.phone}}</div>
-          <div class="row"><b>Residencia</b></div>
-          <div class="row mb-2">{{patient.residence}}</div>
+          <field-edit title="Dirección" :value="patient.address" name="address" :document="dbDocument" />
+          <div class="row"><b>Estado civil</b></div>
+          <div class="row mb-2">{{patient.civilStatus}}</div>
+          <field-edit title="Nacionalidad" :value="patient.nacionality" name="nacionality" :document="dbDocument" />
+          <field-edit title="Telefono" :value="patient.phone" name="phone" :document="dbDocument" />
+          <field-edit title="Residencia" :value="patient.residence" name="residence" :document="dbDocument" />
+          <field-edit title="Email" :value="patient.email" name="email" :document="dbDocument" />
+
         </div>
       </div>
       <div class="col-md-9">
         <div class="row mb-4">
           <div class="col-12">
             <div class="form-group">
-              <label>Nuevo registro</label>
+              <h4>Nuevo registro</h4>
               <textarea v-model="newEntry" class="form-control" rows="3"></textarea>
             </div>
-            <button v-on:click="addEntry" type="button" class="btn btn-primary">Guardar</button>
+            <button v-on:click="addEntry" type="button" class="btn btn-primary float-right">Guardar</button>
           </div>
         </div>
         <table class="table table-hover">
@@ -92,6 +100,7 @@ export default {
     let patientDoc = db.collection('patients').doc(id)
     patientDoc.onSnapshot(doc => {
       this.patient = doc.data()
+      this.patient.age = moment().diff(this.patient.birthday, 'years')
       this.patient.birthday = `${this.patient.birthday.getDate()}/${this.patient.birthday.getMonth() + 1}/${this.patient.birthday.getFullYear()}`
       this.loaded = true
     })
@@ -108,8 +117,21 @@ export default {
     })
     this.dbDocument = patientDoc
   },
+  computed: {
+    createdAt () {
+      return moment(this.patient.createdAt).format('D MMMM [de] YY [a las] h:mm a')
+    }
+  },
   components: {
     FieldEdit
   }
 }
 </script>
+<style>
+.line-util {
+  border: 0.7px dashed #535353;
+  border-radius: 100px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+</style>
