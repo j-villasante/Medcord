@@ -151,7 +151,7 @@
         </div>
         <div class="row">
           <div class="col-12 form-group">
-            <label>Dirección</label>
+            <label>Domicilio</label>
             <input 
               type="text" 
               class="form-control" 
@@ -166,7 +166,24 @@
         </div>
         <div class="row">
           <div class="col-md-6 col-12 form-group">
-            <label>País de residencia</label>
+            <label>Referencia</label>
+            <input type="text" 
+              class="form-control" 
+              placeholder="Ingrese"
+              v-model.trim="patient.addressReference" >
+          </div>
+          <div class="col-md-6 col-12 form-group">
+            <label>Facebook</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              placeholder="Ingrese"
+              v-model.trim="patient.facebook">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-12 form-group">
+            <label>Procedencia</label>
             <input 
               type="text" 
               class="form-control" 
@@ -175,18 +192,49 @@
               v-on:blur="$v.patient.residence.$touch()"
               :class="{ 'is-invalid': $v.patient.residence.$error }">
             <div v-if="$v.patient.residence.$error">
-              <small class="text-danger" v-if="!$v.patient.residence.required">Ingrese su país de residencia.</small>
+              <small class="text-danger" v-if="!$v.patient.residence.required">Ingrese su país de procedencia.</small>
             </div>
           </div>
           <div class="col-md-6 col-12 form-group">
-            <label>Nacionalidad</label>
+            <label>Lugar de nacimiento</label>
             <input type="text" 
               class="form-control" 
               placeholder="Ingrese"v-model.trim="patient.nacionality" 
               v-on:blur="$v.patient.nacionality.$touch()"
               :class="{ 'is-invalid': $v.patient.nacionality.$error }">
             <div v-if="$v.patient.nacionality.$error">
-              <small class="text-danger" v-if="!$v.patient.nacionality.required">Ingrese su nacionalidad.</small>
+              <small class="text-danger" v-if="!$v.patient.nacionality.required">Ingrese su lugar de nacimiento.</small>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-12 form-group">
+            <label>Ocupación</label>
+            <input 
+              type="text" 
+              class="form-control" 
+              placeholder="Ingrese"
+              v-model.trim="patient.occupation" 
+              v-on:blur="$v.patient.occupation.$touch()"
+              :class="{ 'is-invalid': $v.patient.occupation.$error }">
+            <div v-if="$v.patient.occupation.$error">
+              <small class="text-danger" v-if="!$v.patient.occupation.required">Ingrese su ocupación.</small>
+            </div>
+          </div>
+          <div class="col-md-6 col-12 form-group">
+            <label>Grado de instrucción</label>
+            <select class="form-control"
+              v-model.trim="patient.degree" 
+              v-on:blur="$v.patient.degree.$touch()"
+              :class="{ 'is-invalid': $v.patient.degree.$error }">
+              <option selected disabled value="">Seleccione</option>
+              <option value="Ninguno">Ninguno</option>
+              <option value="Primaria">Primaria</option>
+              <option value="Secundaria">Secundaria</option>
+              <option value="Superior">Superior</option>
+            </select>
+            <div v-if="$v.patient.degree.$error">
+              <small class="text-danger" v-if="!$v.patient.degree.required">Ingrese su grado de instrucción.</small>
             </div>
           </div>
         </div>
@@ -234,7 +282,7 @@
 </template>
 <script>
 import Datepicker from 'vuejs-datepicker'
-import { required, minLength, numeric, email, or } from 'vuelidate/lib/validators'
+import { required, minLength, numeric, email } from 'vuelidate/lib/validators'
 import fire from '../fire.js'
 
 const db = fire.firestore()
@@ -283,6 +331,10 @@ export default {
       email: '',
       pathological: '',
       surgical: '',
+      occupation: '',
+      degree: '',
+      addressReference: '',
+      facebook: '',
       alergies: null
     }
   }),
@@ -313,7 +365,13 @@ export default {
       nacionality: { required },
       sex: { required },
       email: { required, email },
-      alergies: { required }
+      occupation: { required },
+      degree: { required },
+      alergies: {
+        check (value) {
+          return (value === true || value === false)
+        }
+      }
     }
   }
 }

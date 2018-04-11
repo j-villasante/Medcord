@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="row">
-      <div v-for="p in patients" class="col-4 patient">
+      <div v-for="p in patients" class="col-md-4 patient">
         <div class="card bg-light mb-4">
           <div class="card-header">
             <b>{{p.fatherSurname}} {{p.motherSurname}} </b>{{p.name}}

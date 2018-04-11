@@ -23,12 +23,16 @@
             <div><b>{{patient.documentType}}</b> {{patient.document}}</div>
           </div>
           <field-edit title="Dirección" :value="patient.address" name="address" :document="dbDocument" />
+          <field-edit title="Referencia" :value="patient.addressReference" name="email" :document="dbDocument" />
           <div class="row"><b>Estado civil</b></div>
           <div class="row mb-2">{{patient.civilStatus}}</div>
           <field-edit title="Nacionalidad" :value="patient.nacionality" name="nacionality" :document="dbDocument" />
           <field-edit title="Telefono" :value="patient.phone" name="phone" :document="dbDocument" />
           <field-edit title="Residencia" :value="patient.residence" name="residence" :document="dbDocument" />
           <field-edit title="Email" :value="patient.email" name="email" :document="dbDocument" />
+          <field-edit title="Grado de instrucción" :value="patient.degree" name="degree" :document="dbDocument" />
+          <field-edit title="Ocupación" :value="patient.occupation" name="occupation" :document="dbDocument" />
+          <field-edit title="Facebook" :value="patient.facebook" name="facebook" :document="dbDocument" />
 
         </div>
       </div>

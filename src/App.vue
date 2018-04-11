@@ -9,10 +9,16 @@
       <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item" :class="{active: this.$root.currentPath === '/'}">
-            <vue-link class="nav-link" href="/">Busqueda</vue-link>
+            <vue-link class="nav-link" href="/">Historias</vue-link>
           </li>
           <li class="nav-item" :class="{active: this.$root.currentPath === '/new'}">
             <vue-link class="nav-link" href="/new">Nuevo paciente</vue-link>
+          </li>
+          <li class="nav-item" :class="{active: this.$root.currentPath === '/new-visitor'}">
+            <vue-link class="nav-link" href="/new-visitor">Nuevo visitante</vue-link>
+          </li>
+          <li class="nav-item" v-on:click="exportData">
+            <vue-link class="nav-link">Exportar</vue-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/" v-on:click="logout">Salir</a>
@@ -27,13 +33,15 @@
 <script>
 import VueLink from './components/VueLink.vue'
 import firebase from 'firebase/app'
+import exportData from './export.js'
 
 export default {
   methods: {
     logout (e) {
       event.preventDefault()
       firebase.auth().signOut()
-    }
+    },
+    exportData
   },
   computed: {
     ViewComponent () {
