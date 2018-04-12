@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <div class="row align-items-center justify-content-between">
-      <div class="col-6">
+    <div class="row align-items-center justify-content-between mb-4">
+      <div class="col-md-6">
         <h1 class="my-4">Pacientes</h1>
       </div>
-      <div class="col-4">
+      <div class="col-md-4">
         <div class="input-group">
           <div class="input-group-prepend">
             <div class="input-group-text">

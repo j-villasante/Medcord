@@ -13,7 +13,7 @@
     <div v-else class="mb-2 full-width">
       <div class="row">
         <div class="col-10">{{value}}</div>
-        <div class="col-2">
+        <div class="col-2 d-print-none">
           <img src="../assets/icons/ic_mode_edit_black_24px.svg" v-on:click="onEditClick">
         </div>
       </div>

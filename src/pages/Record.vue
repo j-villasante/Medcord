@@ -1,7 +1,12 @@
 <template>
   <div v-if="loaded" class="container">
-    <div class="row">
-      <h3 class="mt-4">{{patient.fatherSurname}} {{patient.motherSurname}} <small>{{patient.name}}</small></h3>
+    <div class="row justify-content-between align-items-center">
+      <div class="col-md-10">
+        <h3 class="mt-4">{{patient.fatherSurname}} {{patient.motherSurname}} <small>{{patient.name}}</small></h3>
+      </div>
+      <div class="col-md-2 text-right d-print-none">
+        <img src="../assets/icons/ic_print_black_24px.svg" style="cursor: pointer" v-on:click="print"/>
+      </div>
     </div>
     <div class="text-right text-muted"><small>Creado el {{createdAt}}</small></div>
     <div class="row">
@@ -37,7 +42,7 @@
         </div>
       </div>
       <div class="col-md-9">
-        <div class="row mb-4">
+        <div class="row mb-4 d-print-none">
           <div class="col-12">
             <div class="form-group">
               <h4>Nuevo registro</h4>
@@ -62,12 +67,6 @@
             </tr>
           </tbody>
         </table>
-        <!-- <div v-for="e in entries" class="row">
-          <div class="col-9">
-            <div style="white-space: pre-line;">{{e.entry}}</div>
-          </div>
-          <div class="col-3">{{e.time}}</div>
-        </div> -->
       </div>
     </div>
   </div>
@@ -97,6 +96,9 @@ export default {
         .then(() => {
           this.newEntry = ''
         })
+    },
+    print () {
+      window.print()
     }
   },
   mounted () {
@@ -133,7 +135,7 @@ export default {
 </script>
 <style>
 .line-util {
-  border: 0.7px dashed #535353;
+  border: 0.1px solid #919191;
   border-radius: 100px;
   margin-top: 20px;
   margin-bottom: 20px;

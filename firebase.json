@@ -8,7 +8,8 @@
       "**/*.json",
       "**/*.config.js",
       "**/*.log",
-      "**/*.md"
+      "**/*.md",
+      "./dist/*.map"
     ],
     "rewrites": [
       {
