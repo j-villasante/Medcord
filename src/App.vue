@@ -17,9 +17,18 @@
           <li class="nav-item" :class="{active: this.$root.currentPath === '/new-visitor'}">
             <vue-link class="nav-link" href="/new-visitor">Nuevo visitante</vue-link>
           </li>
-          <li class="nav-item" v-on:click="exportData">
-            <vue-link class="nav-link">Exportar</vue-link>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Exportar
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#" v-on:click="exportAll">Todo</a>
+              <a class="dropdown-item" href="#" v-on:click="exportVisitors">Visitantes</a>
+              <a class="dropdown-item" href="#" v-on:click="exportPatients">Pacientes</a>
+            </div>
           </li>
+        </ul>
+        <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link" href="/" v-on:click="logout">Salir</a>
           </li>
@@ -33,7 +42,7 @@
 <script>
 import VueLink from './components/VueLink.vue'
 import firebase from 'firebase/app'
-import exportData from './export.js'
+import {exportPatients, exportVisitors, exportAll} from './exporter.js'
 
 export default {
   methods: {
@@ -41,7 +50,9 @@ export default {
       event.preventDefault()
       firebase.auth().signOut()
     },
-    exportData
+    exportPatients,
+    exportVisitors,
+    exportAll
   },
   computed: {
     ViewComponent () {
