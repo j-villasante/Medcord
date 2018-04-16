@@ -13,7 +13,7 @@
     <div v-else class="mb-2 full-width">
       <div class="row">
         <div class="col-10">{{value}}</div>
-        <div class="col-2 d-print-none">
+        <div class="col-2">
           <img src="../assets/icons/ic_mode_edit_black_24px.svg" v-on:click="onEditClick">
         </div>
       </div>
@@ -53,7 +53,7 @@ export default {
     onSaveClick () {
       let obj = {}
       obj[this.name] = this.newValue
-      this.document.update(obj)
+      if (this.newValue) this.document.update(obj)
       this.isEditMode = false
     }
   },
