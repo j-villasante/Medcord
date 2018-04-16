@@ -8,7 +8,6 @@ import App from './App.vue'
 import Login from './Login.vue'
 import routes from './routes'
 import fire from './fire.js'
-import 'moment/locale/es'
 
 Vue.use(Vuelidate)
 const app = new Vue({

@@ -74,7 +74,8 @@
 <script>
 import fire from '../fire.js'
 import FieldEdit from '../components/FieldEdit.vue'
-import moment from 'moment'
+import { differenceInYears, format } from 'date-fns'
+import eslocale from 'date-fns/locale/es'
 
 const db = fire.firestore()
 let id = null
@@ -106,7 +107,7 @@ export default {
     let patientDoc = db.collection('patients').doc(id)
     patientDoc.onSnapshot(doc => {
       this.patient = doc.data()
-      this.patient.age = moment().diff(this.patient.birthday, 'years')
+      this.patient.age = differenceInYears(this.patient.birthday, new Date())
       this.patient.birthday = `${this.patient.birthday.getDate()}/${this.patient.birthday.getMonth() + 1}/${this.patient.birthday.getFullYear()}`
       this.loaded = true
     })
@@ -116,7 +117,7 @@ export default {
       entriesSnap.forEach(doc => {
         let data = doc.data()
         this.entries.push({
-          time: moment(data.time).format('D MMM YY [\n] h:mm a'),
+          time: format(data.time, 'D MMM YY [\n] hh:mm a', { locale: eslocale }),
           entry: data.entry
         })
       })
@@ -125,7 +126,7 @@ export default {
   },
   computed: {
     createdAt () {
-      return moment(this.patient.createdAt).format('D MMMM [de] YY [a las] h:mm a')
+      return format(this.patient.createdAt, 'D MMMM [de] YYYY [a las] h:mm a')
     }
   },
   components: {

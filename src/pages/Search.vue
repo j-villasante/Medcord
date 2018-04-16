@@ -47,7 +47,7 @@
 import VueLink from '../components/VueLink.vue'
 import fire from '../fire.js'
 import Fuse from 'fuse.js'
-import moment from 'moment'
+import { differenceInYears } from 'date-fns'
 
 const db = fire.firestore()
 const fuseOptions = {
@@ -87,9 +87,8 @@ export default {
         snap.forEach(doc => {
           let data = doc.data()
           data.id = doc.id
-          data.birthday = moment(data.birthday)
 
-          data.age = moment().diff(data.birthday, 'years')
+          data.age = differenceInYears(data.birthday, new Date())
           list.push(data)
         })
         return list
