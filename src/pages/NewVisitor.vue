@@ -134,6 +134,8 @@ import { required, minLength, numeric, email } from 'vuelidate/lib/validators'
 import fire from '../fire.js'
 
 const db = fire.firestore()
+const visitorRef = db.collection('visitors')
+const masterRef = visitorRef.doc('master')
 
 export default {
   methods: {
@@ -143,7 +145,17 @@ export default {
         this.saveBut.message = '•••'
         this.saveBut.disabled = true
         this.visitor.createdAt = new Date()
-        db.collection('visitors').add(this.visitor)
+        db.runTransaction(transaction => {
+          return transaction.get(masterRef).then(masterDoc => {
+            if (!masterDoc.exists) {
+              throw Error('document does not exist!')
+            }
+            let newCount = masterDoc.data().count + 1
+            this.visitor.code = newCount
+            transaction.update(masterRef, {count: newCount})
+          })
+        })
+          .then(() => visitorRef.add(this.visitor))
           .then(() => {
             this.$root.setRoute('/')
           })

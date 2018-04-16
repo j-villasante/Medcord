@@ -286,6 +286,8 @@ import { required, minLength, numeric, email } from 'vuelidate/lib/validators'
 import fire from '../fire.js'
 
 const db = fire.firestore()
+const patientsRef = db.collection('patients')
+const masterRef = patientsRef.doc('master')
 
 export default {
   methods: {
@@ -295,7 +297,17 @@ export default {
         this.saveBut.message = '•••'
         this.saveBut.disabled = true
         this.patient.createdAt = new Date()
-        db.collection('patients').add(this.patient)
+        db.runTransaction(transaction => {
+          return transaction.get(masterRef).then(masterDoc => {
+            if (!masterDoc.exists) {
+              throw Error('document does not exist!')
+            }
+            let newCount = masterDoc.data().count + 1
+            this.patient.code = newCount
+            transaction.update(masterRef, {count: newCount})
+          })
+        })
+          .then(() => db.collection('patients').add(this.patient))
           .then(() => {
             this.$root.setRoute('/')
           })

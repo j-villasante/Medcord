@@ -88,7 +88,7 @@ export default {
           let data = doc.data()
           data.id = doc.id
 
-          data.age = differenceInYears(data.birthday, new Date())
+          data.age = differenceInYears(new Date(), data.birthday)
           list.push(data)
         })
         return list

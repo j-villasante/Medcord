@@ -5,7 +5,7 @@
     <br><br>
     <h3 class="text-center">HISTORIA CLÍNICA</h3>
     <br><br>
-    <div>NRO: 0001</div>
+    <div>NRO: {{patient.code}}</div>
     <br>
     <div>FECHA: {{createdAt}}</div>
     <br>

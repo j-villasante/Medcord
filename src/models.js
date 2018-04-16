@@ -1,6 +1,7 @@
 export default {
   visitor: {
     ids: [
+      'code',
       'motherSurname',
       'fatherSurname',
       'name',
@@ -12,10 +13,11 @@ export default {
       'facebook',
       'createdAt'
     ],
-    header: 'Apellido materno,Apellido paterno,Nombre,Telefono,Fecha de nacimiento,Dirección,Correo,Referencia,Facebook,Fecha de creación\n'
+    header: 'Número, Apellido materno,Apellido paterno,Nombre,Telefono,Fecha de nacimiento,Dirección,Correo,Referencia,Facebook,Fecha de creación\n'
   },
   patient: {
     ids: [
+      'code',
       'motherSurname',
       'fatherSurname',
       'name',
@@ -38,6 +40,6 @@ export default {
       'alergies',
       'createdAt'
     ],
-    header: 'Apellido materno,Apellido paterno,Nombre,Telefono,Fecha de nacimiento,Estado civil,Tipo de documento,Documento,Dirección,Procedencia,Lugar de nacimiento,Sexo,Correo,Antecedentes patológicos,Antecedentes cirúrgicos,Ocupación,Grado de instrucción,Referencia,Facebook,Alergías,Fecha de creación\n'
+    header: 'Número, Apellido materno,Apellido paterno,Nombre,Telefono,Fecha de nacimiento,Estado civil,Tipo de documento,Documento,Dirección,Procedencia,Lugar de nacimiento,Sexo,Correo,Antecedentes patológicos,Antecedentes cirúrgicos,Ocupación,Grado de instrucción,Referencia,Facebook,Alergías,Fecha de creación\n'
   }
 }

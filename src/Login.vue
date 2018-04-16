@@ -22,7 +22,7 @@ export default {
   }),
   methods: {
     login () {
-      this.loginBut = '...'
+      this.loginBut = '•••'
       firebase.auth().signInWithEmailAndPassword(this.$refs.email.value, this.$refs.password.value).catch(error => {
         console.log(error.code)
         switch (error.code) {

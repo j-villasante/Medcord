@@ -4,16 +4,17 @@
     <div class="d-print-none">
       <div class="row justify-content-between align-items-center">
         <div class="col-md-10">
+          <h5 class="mt-2"><small>NRO. -</small>{{patient.code}}</h5>
           <h3 class="mt-4">{{patient.fatherSurname}} {{patient.motherSurname}} <small>{{patient.name}}</small></h3>
         </div>
         <div class="col-md-2 text-right">
-          <img src="../assets/icons/ic_print_black_24px.svg" style="cursor: pointer" v-on:click="print"/>
+          <img src="../assets/icons/ic_print_black_24px.svg" class="clickable" v-on:click="print"/>
         </div>
       </div>
       <div class="text-right text-muted"><small>Creado el {{patient.createdAtFormatted}}</small></div>
       <div class="row">
         <div class="col-md-3">
-          <div class="col-12">
+          <div class="col-12">            
             <h4 class="text-center">Antecedentes</h4>
             <div class="row"><b>Alergías</b></div>
             <div class="row mb-2">{{patient.alergies ? 'Si' : 'No'}}</div>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-      <a class="navbar-brand" href="#">SR</a>
+      <a class="navbar-brand" href="/">SR</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation" style="">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -18,13 +18,13 @@
             <vue-link class="nav-link" href="/new-visitor">Nuevo visitante</vue-link>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle clickable" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Exportar
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#" v-on:click="exportAll">Todo</a>
-              <a class="dropdown-item" href="#" v-on:click="exportVisitors">Visitantes</a>
-              <a class="dropdown-item" href="#" v-on:click="exportPatients">Pacientes</a>
+              <a class="dropdown-item clickable" v-on:click="exportAll">Todo</a>
+              <a class="dropdown-item clickable" v-on:click="exportVisitors">Visitantes</a>
+              <a class="dropdown-item clickable" v-on:click="exportPatients">Pacientes</a>
             </div>
           </li>
         </ul>
@@ -64,3 +64,12 @@ export default {
   }
 }
 </script>
+<style>
+.clickable {
+  cursor: pointer;
+}
+
+.dropdown-item.clickable:hover {
+  color: white !important;
+}
+</style>
