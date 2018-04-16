@@ -7,14 +7,14 @@
           <textarea v-if="isTextArea" class="form-control my-2" v-model="newValue"></textarea>
           <input v-else type="text" class="form-control my-2" v-model="newValue">          
         </div>
-        <img class="col-2" src="../assets/icons/ic_save_black_24px.svg" v-on:click="onSaveClick">
+        <img class="col-2 clickable" src="../assets/icons/ic_save_black_24px.svg" v-on:click="onSaveClick">
       </div>
     </div>
     <div v-else class="mb-2 full-width">
       <div class="row">
         <div class="col-10">{{value}}</div>
         <div class="col-2">
-          <img src="../assets/icons/ic_mode_edit_black_24px.svg" v-on:click="onEditClick">
+          <img class="clickable" src="../assets/icons/ic_mode_edit_black_24px.svg" v-on:click="onEditClick">
         </div>
       </div>
     </div>
