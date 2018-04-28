@@ -6,14 +6,11 @@ export default {
       'fatherSurname',
       'name',
       'phone',
-      'birthday',
       'address',
       'email',
-      'addressReference',
-      'facebook',
-      'createdAt'
+      'facebook'
     ],
-    header: 'Número, Apellido materno,Apellido paterno,Nombre,Telefono,Fecha de nacimiento,Dirección,Correo,Referencia,Facebook,Fecha de creación\n'
+    header: 'Número, Apellido materno,Apellido paterno,Nombre,Telefono,Dirección,Correo,Facebook\n'
   },
   patient: {
     ids: [
@@ -22,24 +19,10 @@ export default {
       'fatherSurname',
       'name',
       'phone',
-      'birthday',
-      'civilStatus',
-      'documentType',
-      'document',
       'address',
-      'residence',
-      'nacionality',
-      'sex',
       'email',
-      'pathological',
-      'surgical',
-      'occupation',
-      'degree',
-      'addressReference',
-      'facebook',
-      'alergies',
-      'createdAt'
+      'facebook'
     ],
-    header: 'Número, Apellido materno,Apellido paterno,Nombre,Telefono,Fecha de nacimiento,Estado civil,Tipo de documento,Documento,Dirección,Procedencia,Lugar de nacimiento,Sexo,Correo,Antecedentes patológicos,Antecedentes cirúrgicos,Ocupación,Grado de instrucción,Referencia,Facebook,Alergías,Fecha de creación\n'
+    header: 'Número, Apellido materno,Apellido paterno,Nombre,Telefono,Dirección,Correo,Facebook\n'
   }
 }
