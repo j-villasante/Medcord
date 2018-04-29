@@ -3,19 +3,21 @@ import 'bootstrap'
 
 import Vue from 'vue'
 import Vuelidate from 'vuelidate'
+import VModal from 'vue-js-modal'
 
 import App from './App.vue'
 import Login from './Login.vue'
 import routes from './routes'
 import fire from './fire.js'
 
+Vue.use(VModal, { dialog: true })
 Vue.use(Vuelidate)
-const app = new Vue({
+
+let app = null
+let options = {
   el: '#app',
   data: {
-    currentView: routes(window.location.pathname).view,
-    currentPath: window.location.pathname,
-    logged: fire.currentUser !== null
+    currentPath: window.location.pathname
   },
   render (h) {
     if (this.logged) {
@@ -35,13 +37,16 @@ const app = new Vue({
       this.currentPath = window.location.pathname
     }
   }
-})
+}
 
 fire.auth().onAuthStateChanged(user => {
-  if (user) {
-    app.logged = true
+  if (app == null) {
+    options.data.logged = Boolean(user)
+    options.data.currentView = user ? routes(window.location.pathname).view : null
+    app = new Vue(options)
   } else {
-    app.logged = false
+    app.currentView = routes(window.location.pathname).view
+    app.logged = Boolean(user)
   }
 })
 

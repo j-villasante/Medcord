@@ -4,9 +4,9 @@
       <img class="mb-4" src="./assets/Roundel_of_the_Red_Cross.svg" alt="" width="100" height="100">
       <h1 class="h3 mb-3 font-weight-normal">Iniciar sesión</h1>
       <label for="inputEmail" class="sr-only">Correo electrónico</label>
-      <input type="email" id="inputEmail" class="form-control" placeholder="Correo electrónico" ref="email" required autofocus>
+      <input type="email" id="inputEmail" class="form-control" placeholder="Correo electrónico" ref="email" v-on:keyup.13="login" required autofocus>
       <label for="inputPassword" class="sr-only">Contraseña</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" ref="password" required>
+      <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" ref="password" v-on:keyup.13="login" required>
       <div v-if="error" class="alert alert-danger" role="alert">{{error}}</div>
       <button class="btn btn-lg btn-primary btn-block" type="submit" v-on:click="login">{{loginBut}}</button>
     </div>
@@ -24,7 +24,6 @@ export default {
     login () {
       this.loginBut = '•••'
       firebase.auth().signInWithEmailAndPassword(this.$refs.email.value, this.$refs.password.value).catch(error => {
-        console.log(error.code)
         switch (error.code) {
           case 'auth/invalid-email':
             this.error = 'Formato de correo incorrecto'

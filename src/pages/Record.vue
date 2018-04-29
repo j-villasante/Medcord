@@ -14,7 +14,7 @@
       <div class="text-right text-muted"><small>Creado el {{patient.createdAtFormatted}}</small></div>
       <div class="row">
         <div class="col-md-3">
-          <div class="col-12">            
+          <div class="col-12">
             <h4 class="text-center">Antecedentes</h4>
             <div class="row"><b>Alergías</b></div>
             <div class="row mb-2">{{patient.alergies ? 'Si' : 'No'}}</div>
@@ -42,6 +42,11 @@
             <field-edit title="Ocupación" :value="patient.occupation" name="occupation" :document="dbDocument" />
             <field-edit title="Facebook" :value="patient.facebook" name="facebook" :document="dbDocument" />
 
+          </div>
+          <div class="col-12">
+            <div class="row justify-content-center my-4">
+              <button type="button" class="btn btn-danger" v-on:click="deleteOne">Eliminar</button>              
+            </div>
           </div>
         </div>
         <div class="col-md-9">
@@ -73,10 +78,12 @@
         </div>
       </div>
     </div>
+    <v-dialog/>
   </div>
 </template>
 <script>
 import fire from '../fire.js'
+
 import FieldEdit from '../components/FieldEdit.vue'
 import Print from './Print.vue'
 import { differenceInYears, format } from 'date-fns'
@@ -105,17 +112,40 @@ export default {
     },
     print () {
       window.print()
+    },
+    deleteOne () {
+      this.$modal.show('dialog', {
+        title: 'Alerta!',
+        text: '¿Estás seguro que quieres borrar el paciente?',
+        buttons: [
+          {
+            title: 'Sí, quiero borrarlo',
+            handler: () => {
+              this.$root.setRoute('/')
+              db.collection('patients').doc(id).delete().catch(() => {
+                alert('Error al borrar.')
+              })
+            }
+          },
+          {
+            title: 'Cerrar'
+          }
+        ]
+      })
     }
   },
   mounted () {
     id = location.pathname.split('/')[2]
     let patientDoc = db.collection('patients').doc(id)
     patientDoc.onSnapshot(doc => {
-      this.patient = doc.data()
-      this.patient.age = differenceInYears(new Date(), this.patient.birthday)
-      this.patient.birthday = `${this.patient.birthday.getDate()}/${this.patient.birthday.getMonth() + 1}/${this.patient.birthday.getFullYear()}`
-      this.patient.createdAtFormatted = format(this.patient.createdAt, 'D MMMM [de] YYYY [a las] h:mm a')
-      this.loaded = true
+      let data = doc.data()
+      if (data) {
+        this.patient = data
+        this.patient.age = differenceInYears(new Date(), this.patient.birthday)
+        this.patient.birthday = `${this.patient.birthday.getDate()}/${this.patient.birthday.getMonth() + 1}/${this.patient.birthday.getFullYear()}`
+        this.patient.createdAtFormatted = format(this.patient.createdAt, 'D MMMM [de] YYYY [a las] h:mm a')
+        this.loaded = true
+      }
     })
 
     patientDoc.collection('entries').orderBy('time', 'desc').onSnapshot(entriesSnap => {
