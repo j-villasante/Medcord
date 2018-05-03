@@ -71,7 +71,7 @@
             <tbody>
               <tr v-for="e in entries">
                 <th style="white-space: pre-line;" scope="row">{{e.time}}</th>
-                <td style="white-space: pre-line;">{{e.entry}}</td>
+                <td style="white-space: pre-line;"><edit :value="e.entry" :document="e.document" /></td>
               </tr>
             </tbody>
           </table>
@@ -85,6 +85,7 @@
 import fire from '../fire.js'
 
 import FieldEdit from '../components/FieldEdit.vue'
+import Edit from '../components/Edit.vue'
 import Print from './Print.vue'
 import { differenceInYears, format } from 'date-fns'
 import eslocale from 'date-fns/locale/es'
@@ -102,6 +103,7 @@ export default {
   }),
   methods: {
     addEntry () {
+      if (this.newEntry === '' || !this.newEntry) return
       db.collection('patients').doc(id).collection('entries').add({
         time: new Date(),
         entry: this.newEntry
@@ -154,14 +156,15 @@ export default {
         let data = doc.data()
         this.entries.push({
           time: format(data.time, 'D MMM YY [\n] hh:mm a', { locale: eslocale }),
-          entry: data.entry
+          entry: data.entry,
+          document: doc.ref
         })
       })
     })
     this.dbDocument = patientDoc
   },
   components: {
-    FieldEdit, Print
+    FieldEdit, Print, Edit
   }
 }
 </script>
