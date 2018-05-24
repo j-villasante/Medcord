@@ -12,6 +12,7 @@
         </div>
       </div>
       <div class="text-right text-muted"><small>Creado el {{patient.createdAtFormatted}}</small></div>
+      <div class="text-right text-muted"><small>Modificado el {{patient.updatedAtFormatted || '---'}}</small></div>
       <div class="row">
         <div class="col-md-3">
           <div class="col-12">
@@ -109,6 +110,7 @@ export default {
         entry: this.newEntry
       })
         .then(() => {
+          db.collection('patients').doc(id).update({updatedAt: new Date()})
           this.newEntry = ''
         })
     },
@@ -145,7 +147,8 @@ export default {
         this.patient = data
         this.patient.age = differenceInYears(new Date(), this.patient.birthday)
         this.patient.birthday = `${this.patient.birthday.getDate()}/${this.patient.birthday.getMonth() + 1}/${this.patient.birthday.getFullYear()}`
-        this.patient.createdAtFormatted = format(this.patient.createdAt, 'D MMMM [de] YYYY [a las] h:mm a')
+        this.patient.createdAtFormatted = format(this.patient.createdAt, 'D [de] MMMM [de] YYYY [a las] h:mm a', { locale: eslocale })
+        this.patient.updatedAtFormatted = format(this.patient.updatedAt, 'D [de] MMMM [de] YYYY [a las] h:mm a', { locale: eslocale })
         this.loaded = true
       }
     })

@@ -53,6 +53,7 @@ export default {
     onSaveClick () {
       let obj = {}
       obj[this.name] = this.newValue
+      obj.updatedAt = new Date()
       if (this.newValue) this.document.update(obj)
       this.isEditMode = false
     }
