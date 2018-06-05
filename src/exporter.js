@@ -10,6 +10,7 @@ function exporter (collection, model, hasHeader = true, type) {
       let raw = hasHeader ? (type ? 'Tipo,' : '') + model.header : ''
 
       snap.forEach(doc => {
+        if (doc.id === 'master') return
         let data = doc.data()
         raw += type ? type + ',' : ''
         for (let id of model.ids) {
