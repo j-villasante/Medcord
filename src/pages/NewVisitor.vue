@@ -157,7 +157,7 @@ export default {
         })
           .then(() => visitorRef.add(this.visitor))
           .then(() => {
-            this.$root.setRoute('/')
+            this.$root.setRoute('/visitors')
           })
           .catch(error => {
             this.saveBut.message = 'Guardar'

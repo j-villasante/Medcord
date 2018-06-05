@@ -159,9 +159,10 @@
           </div>
         </div>        
         <div class="row my-3">
-          <div class="col">
-            <button type="button" class="btn btn-secondary" v-on:click="$modal.hide('edit-visitor')">Cerrar</button>
+          <div class="col text-center">
+            <button type="button" class="btn btn-danger float-left" v-on:click="deleteVisitor" :disabled="deleteBut.disabled">{{deleteBut.message}}</button>
             <button type="button" class="btn btn-primary" v-on:click="update" :disabled="updateBut.disabled">{{updateBut.message}}</button>
+            <button type="button" class="btn btn-secondary float-right" v-on:click="$modal.hide('edit-visitor')">Cerrar</button>
           </div>
         </div>
       </div>
@@ -217,6 +218,10 @@ export default {
     updateBut: {
       disabled: false,
       message: 'Actualizar'
+    },
+    deleteBut: {
+      disabled: false,
+      message: 'Eliminar'
     }
   }),
   watch: {
@@ -245,15 +250,33 @@ export default {
       this.visitor.facebook = visitor.facebook
       this.$modal.show('edit-visitor');
     },
-    update() {
-      this.updateBut.disabled = true
-      this.updateBut.message = '•••'
-      db.collection('visitors').doc(this.currentEditingId).update(this.visitor).then(() => {
+    deleteVisitor() {
+      this.setOnLoading()
+      db.collection('visitors').doc(this.currentEditingId).delete().then(() => {
         this.$modal.hide('edit-visitor')
-        this.updateBut.disabled = false
-        this.updateBut.message = 'Actualizar'
+        this.setOffLoading()
         this.updateData()
       })
+    },
+    update() {
+      this.setOnLoading()
+      db.collection('visitors').doc(this.currentEditingId).update(this.visitor).then(() => {
+        this.$modal.hide('edit-visitor')
+        this.setOffLoading()
+        this.updateData()
+      })
+    },
+    setOnLoading() {
+      this.updateBut.disabled = true
+      this.updateBut.message = '•••'
+      this.deleteBut.disabled = true
+      this.deleteBut.message = '•••'
+    },
+    setOffLoading() {
+      this.updateBut.disabled = false
+      this.updateBut.message = 'Actualizar'
+      this.deleteBut.disabled = false
+      this.deleteBut.message = 'Eliminar'
     },
     updateData() {
       this.visitors = []
