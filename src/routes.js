@@ -1,6 +1,7 @@
 import New from './pages/New.vue'
 import Record from './pages/Record.vue'
 import Search from './pages/Search.vue'
+import Visitors from './pages/Visitors.vue'
 import NewVisitor from './pages/NewVisitor.vue'
 import notFound from './pages/404.vue'
 
@@ -16,6 +17,10 @@ const routes = {
   'record': {
     name: 'Historia',
     view: Record
+  },
+  'visitors': {
+    name: 'Visitantes',
+    view: Visitors
   },
   'new-visitor': {
     name: 'Visitor',

@@ -11,6 +11,9 @@
           <li class="nav-item" :class="{active: this.$root.currentPath === '/'}">
             <vue-link class="nav-link" href="/">Historias</vue-link>
           </li>
+          <li class="nav-item" :class="{active: this.$root.currentPath === '/visitors'}">
+            <vue-link class="nav-link" href="/visitors">Visitantes</vue-link>
+          </li>
           <li class="nav-item" :class="{active: this.$root.currentPath === '/new'}">
             <vue-link class="nav-link" href="/new">Nuevo paciente</vue-link>
           </li>

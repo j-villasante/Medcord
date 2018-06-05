@@ -20,7 +20,7 @@
             <div class="row"><b>Alergías</b></div>
             <div class="row mb-2">{{patient.alergies ? 'Si' : 'No'}}</div>
             <field-edit title="Patológicos" :value="patient.pathological" name="pathological" :document="dbDocument" :isTextArea="true" />
-            <field-edit title="Cirúrgicos" :value="patient.surgical" name="surgical" :document="dbDocument" :isTextArea="true" />
+            <field-edit title="Quirúrgicos" :value="patient.surgical" name="surgical" :document="dbDocument" :isTextArea="true" />
 
             <div class="line-util"></div>
 

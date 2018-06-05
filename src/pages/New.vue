@@ -248,7 +248,7 @@
           </div>
           <div class="col-6">
             <div class="form-group">
-              <label>Cirúrgicos</label>
+              <label>Quirúrgicos</label>
               <textarea v-model="patient.surgical" class="form-control" rows="2"></textarea>
             </div>
           </div>

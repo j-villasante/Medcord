@@ -65,6 +65,7 @@ const fuseOptions = {
 
 let fuse = null
 let bk = null
+let timeout = null
 
 export default {
   data: () => ({
@@ -73,11 +74,14 @@ export default {
   }),
   watch: {
     searchValue (val) {
-      if (val === '') {
-        this.patients = bk
-      } else {
-        this.patients = fuse.search(val)
-      }
+      clearTimeout(timeout)
+      timeout = setTimeout(() => {
+        if (val === '') {
+          this.patients = bk
+        } else {
+          this.patients = fuse.search(val)
+        }
+      }, 1000)
     }
   },
   mounted () {
