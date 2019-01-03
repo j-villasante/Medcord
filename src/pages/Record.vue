@@ -38,10 +38,8 @@
             <field-edit title="Lugar de nacimiento" :value="patient.nacionality" name="nacionality" :document="dbDocument" />
             <field-edit title="Telefono" :value="patient.phone" name="phone" :document="dbDocument" />
             <field-edit title="Procedencia" :value="patient.residence" name="residence" :document="dbDocument" />
-            <field-edit title="Email" :value="patient.email" name="email" :document="dbDocument" />
             <field-edit title="Grado de instrucción" :value="patient.degree" name="degree" :document="dbDocument" />
             <field-edit title="Ocupación" :value="patient.occupation" name="occupation" :document="dbDocument" />
-            <field-edit title="Facebook" :value="patient.facebook" name="facebook" :document="dbDocument" />
 
           </div>
           <div class="col-12">

@@ -59,19 +59,6 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-8 col-12 form-group">
-            <label>Correo electrónico</label>
-            <input type="text" 
-              class="form-control" 
-              placeholder="Ingrese" 
-              v-model.trim="visitor.email" 
-              v-on:blur="$v.visitor.email.$touch()"
-              :class="{ 'is-invalid': $v.visitor.email.$error }">
-            <div v-if="$v.visitor.email.$error">
-              <small class="text-danger" v-if="!$v.visitor.email.required">Ingrese un correo.</small>
-              <small class="text-danger" v-if="!$v.visitor.email.email">Ingrese un correo válido.</small>
-            </div>
-          </div>
           <div class="col-md-4 col-12 form-group">
             <label>Fecha de nacimiento</label>
             <datepicker 
@@ -86,9 +73,7 @@
               <small class="text-danger" v-if="!$v.visitor.birthday.required">Ingrese su fecha de nacimiento.</small>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-12 form-group">
+          <div class="col-md-8 col-12 form-group">
             <label>Domicilio</label>
             <input 
               type="text" 
@@ -103,20 +88,12 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6 col-12 form-group">
+          <div class="col-12 form-group">
             <label>Referencia</label>
             <input type="text" 
               class="form-control" 
               placeholder="Ingrese"
               v-model.trim="visitor.addressReference" >
-          </div>
-          <div class="col-md-6 col-12 form-group">
-            <label>Facebook</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              placeholder="Ingrese"
-              v-model.trim="visitor.facebook">
           </div>
         </div>        
         <div class="row my-3">
@@ -182,9 +159,7 @@ export default {
       phone: '',
       birthday: '',
       address: '',
-      email: '',
-      addressReference: '',
-      facebook: ''
+      addressReference: ''
     }
   }),
   components: {
@@ -206,8 +181,7 @@ export default {
       },
       phone: { required, numeric },
       birthday: { required },
-      address: { required },
-      email: { required, email }
+      address: { required }
     }
   }
 }

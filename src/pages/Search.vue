@@ -59,7 +59,8 @@ const fuseOptions = {
   minMatchCharLength: 1,
   keys: [
     'fatherSurname',
-    'motherSurname'
+    'motherSurname',
+    'document'
   ]
 }
 

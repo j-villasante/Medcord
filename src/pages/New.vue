@@ -59,19 +59,6 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-8 col-12 form-group">
-            <label>Correo electrónico</label>
-            <input type="text" 
-              class="form-control" 
-              placeholder="Ingrese" 
-              v-model.trim="patient.email" 
-              v-on:blur="$v.patient.email.$touch()"
-              :class="{ 'is-invalid': $v.patient.email.$error }">
-            <div v-if="$v.patient.email.$error">
-              <small class="text-danger" v-if="!$v.patient.email.required">Ingrese un correo.</small>
-              <small class="text-danger" v-if="!$v.patient.email.email">Ingrese un correo válido.</small>
-            </div>
-          </div>
           <div class="col-md-4 col-12 form-group">
             <label>Sexo</label>
             <select class="form-control"
@@ -86,9 +73,7 @@
               <small class="text-danger" v-if="!$v.patient.sex.required">Seleccione un sexo.</small>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6 col-12 form-group">
+          <div class="col-md-4 col-12 form-group">
             <label>Fecha de nacimiento</label>
             <datepicker 
               input-class='form-control' 
@@ -102,7 +87,7 @@
               <small class="text-danger" v-if="!$v.patient.birthday.required">Ingrese su fecha de nacimiento.</small>
             </div>
           </div>
-          <div class="col-md-6 col-12 form-group">
+          <div class="col-md-4 col-12 form-group">
             <label>Estado civil</label>
             <select class="form-control"
               v-model.trim="patient.civilStatus" 
@@ -165,20 +150,12 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6 col-12 form-group">
+          <div class="col-12 form-group">
             <label>Referencia</label>
             <input type="text" 
               class="form-control" 
               placeholder="Ingrese"
               v-model.trim="patient.addressReference" >
-          </div>
-          <div class="col-md-6 col-12 form-group">
-            <label>Facebook</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              placeholder="Ingrese"
-              v-model.trim="patient.facebook">
           </div>
         </div>
         <div class="row">
@@ -282,7 +259,7 @@
 </template>
 <script>
 import Datepicker from 'vuejs-datepicker'
-import { required, minLength, numeric, email } from 'vuelidate/lib/validators'
+import { required, minLength, numeric } from 'vuelidate/lib/validators'
 import fire from '../fire.js'
 
 const db = fire.firestore()
@@ -340,13 +317,11 @@ export default {
       residence: '',
       nacionality: '',
       sex: '',
-      email: '',
       pathological: '',
       surgical: '',
       occupation: '',
       degree: '',
       addressReference: '',
-      facebook: '',
       alergies: null
     }
   }),
@@ -376,7 +351,6 @@ export default {
       residence: { required },
       nacionality: { required },
       sex: { required },
-      email: { required, email },
       occupation: { required },
       degree: { required },
       alergies: {

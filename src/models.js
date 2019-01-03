@@ -6,11 +6,9 @@ export default {
       'fatherSurname',
       'name',
       'phone',
-      'address',
-      'email',
-      'facebook'
+      'address'
     ],
-    header: 'Número, Apellido materno,Apellido paterno,Nombre,Telefono,Dirección,Correo,Facebook\n'
+    header: 'Número, Apellido materno,Apellido paterno,Nombre,Telefono,Dirección\n'
   },
   patient: {
     ids: [
@@ -19,10 +17,8 @@ export default {
       'fatherSurname',
       'name',
       'phone',
-      'address',
-      'email',
-      'facebook'
+      'address'
     ],
-    header: 'Número, Apellido materno,Apellido paterno,Nombre,Telefono,Dirección,Correo,Facebook\n'
+    header: 'Número, Apellido materno,Apellido paterno,Nombre,Telefono,Dirección\n'
   }
 }

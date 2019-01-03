@@ -30,9 +30,6 @@
                 <span v-if="v.sex === 'masculino'">Hombre</span>
                 <span v-else>Mujer</span>
                 <span>: {{v.age}} años</span>
-              </div>              
-              <div class="col-7">
-                <h5 class="text-right"><small>{{v.email}}</small></h5>
               </div>
             </div>
           </div>
@@ -113,21 +110,6 @@
             </div>
           </div>
           <div class="col-md-8 col-12 form-group">
-            <label>Correo electrónico</label>
-            <input type="text" 
-              class="form-control" 
-              placeholder="Ingrese" 
-              v-model.trim="visitor.email" 
-              v-on:blur="$v.visitor.email.$touch()"
-              :class="{ 'is-invalid': $v.visitor.email.$error }">
-            <div v-if="$v.visitor.email.$error">
-              <small class="text-danger" v-if="!$v.visitor.email.required">Ingrese un correo.</small>
-              <small class="text-danger" v-if="!$v.visitor.email.email">Ingrese un correo válido.</small>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12 form-group">
             <label>Domicilio</label>
             <input 
               type="text" 
@@ -142,22 +124,14 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6 col-12 form-group">
+          <div class="col-12 form-group">
             <label>Referencia</label>
             <input type="text" 
               class="form-control" 
               placeholder="Ingrese"
               v-model.trim="visitor.addressReference" >
           </div>
-          <div class="col-md-6 col-12 form-group">
-            <label>Facebook</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              placeholder="Ingrese"
-              v-model.trim="visitor.facebook">
-          </div>
-        </div>        
+        </div>     
         <div class="row my-3">
           <div class="col text-center">
             <button type="button" class="btn btn-danger float-left" v-on:click="deleteVisitor" :disabled="deleteBut.disabled">{{deleteBut.message}}</button>
@@ -173,7 +147,7 @@
 import Datepicker from 'vuejs-datepicker'
 import fire from '../fire.js'
 import Fuse from 'fuse.js'
-import { required, minLength, numeric, email } from 'vuelidate/lib/validators'
+import { required, minLength, numeric } from 'vuelidate/lib/validators'
 import { differenceInYears } from 'date-fns'
 
 const db = fire.firestore()
@@ -187,8 +161,7 @@ const fuseOptions = {
   minMatchCharLength: 1,
   keys: [
     'fatherSurname',
-    'motherSurname',
-    'email'
+    'motherSurname'
   ]
 }
 
@@ -208,9 +181,7 @@ export default {
       phone: '',
       birthday: '',
       address: '',
-      email: '',
-      addressReference: '',
-      facebook: ''
+      addressReference: ''
     },
     disabled: {
       from: new Date()
@@ -233,11 +204,11 @@ export default {
         } else {
           this.visitors = fuse.search(val)
         }
-      }, 1000);
+      }, 1000)
     }
   },
   methods: {
-    editVisitor(visitor) {
+    editVisitor (visitor) {
       this.currentEditingId = visitor.id
       this.visitor.motherSurname = visitor.motherSurname
       this.visitor.fatherSurname = visitor.fatherSurname
@@ -245,12 +216,10 @@ export default {
       this.visitor.phone = visitor.phone
       this.visitor.birthday = visitor.birthday
       this.visitor.address = visitor.address
-      this.visitor.email = visitor.email
       this.visitor.addressReference = visitor.addressReference
-      this.visitor.facebook = visitor.facebook
-      this.$modal.show('edit-visitor');
+      this.$modal.show('edit-visitor')
     },
-    deleteVisitor() {
+    deleteVisitor () {
       this.setOnLoading()
       db.collection('visitors').doc(this.currentEditingId).delete().then(() => {
         this.$modal.hide('edit-visitor')
@@ -258,7 +227,7 @@ export default {
         this.updateData()
       })
     },
-    update() {
+    update () {
       this.setOnLoading()
       db.collection('visitors').doc(this.currentEditingId).update(this.visitor).then(() => {
         this.$modal.hide('edit-visitor')
@@ -266,7 +235,7 @@ export default {
         this.updateData()
       })
     },
-    setOnLoading() {
+    setOnLoading () {
       this.updateBut.disabled = true
       this.updateBut.message = '•••'
       this.deleteBut.disabled = true
@@ -328,8 +297,7 @@ export default {
       },
       phone: { required, numeric },
       birthday: { required },
-      address: { required },
-      email: { required, email }
+      address: { required }
     }
   }
 }
