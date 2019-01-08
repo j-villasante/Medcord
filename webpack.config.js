@@ -60,11 +60,6 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery'
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"development"'
-      }
     })
   ]
 }
@@ -88,5 +83,13 @@ if (process.env.NODE_ENV === 'production') {
       minimize: true
     })/*,
     new BundleAnalyzerPlugin()*/
+  ])
+} else if (process.env.NODE_ENV === 'development') {
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"development"'
+      }
+    })
   ])
 }

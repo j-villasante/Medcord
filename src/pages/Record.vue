@@ -123,10 +123,26 @@ export default {
           {
             title: 'Sí, quiero borrarlo',
             handler: () => {
-              this.$root.setRoute('/')
-              db.collection('patients').doc(id).delete().catch(() => {
-                alert('Error al borrar.')
+              db.runTransaction(transaction => {
+                const masterRef = db.collection('patients').doc('master')
+                const patientRef = db.collection('patients').doc(id)
+
+                let p1 = transaction.get(masterRef).then(master => {
+                  let count = master.data().count - 1
+                  return transaction.update(masterRef, {count})
+                })
+                let p2 = transaction.delete(patientRef)
+                return Promise.all([p1, p2])
               })
+                .then(() => {
+                  this.$root.setRoute('/')
+                })
+                .catch(() => {
+                  alert('Error al borrar.')
+                })
+              // db.collection('patients').doc(id).delete().catch(() => {
+              //   alert('Error al borrar.')
+              // })
             }
           },
           {

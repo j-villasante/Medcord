@@ -1,5 +1,6 @@
 src/fire-config.json
 dist
+.firebase/
 
 # Created by https://www.gitignore.io/api/node,linux,macos,windows,sublimetext
 

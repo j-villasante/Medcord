@@ -94,7 +94,7 @@
               v-on:blur="$v.patient.civilStatus.$touch()"
               :class="{ 'is-invalid': $v.patient.civilStatus.$error }">
               <option selected disabled value="">Seleccione</option>
-              <option value="Soltero">Soltero</option>
+              <option value="Soltera">Soltera</option>
               <option value="Casado">Casado</option>
               <option value="Vuido">Vuido</option>
               <option value="Divorciado">Divorciado</option>
