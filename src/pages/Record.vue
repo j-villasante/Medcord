@@ -123,6 +123,7 @@ export default {
           {
             title: 'Sí, quiero borrarlo',
             handler: () => {
+              this.$modal.hide('dialog')
               db.runTransaction(transaction => {
                 const masterRef = db.collection('patients').doc('master')
                 const patientRef = db.collection('patients').doc(id)
