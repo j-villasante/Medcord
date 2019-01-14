@@ -95,9 +95,9 @@
               :class="{ 'is-invalid': $v.patient.civilStatus.$error }">
               <option selected disabled value="">Seleccione</option>
               <option value="Soltera">Soltera</option>
-              <option value="Casado">Casado</option>
-              <option value="Vuido">Vuido</option>
-              <option value="Divorciado">Divorciado</option>
+              <option value="Casada">Casada</option>
+              <option value="Vuida">Vuida</option>
+              <option value="Divorciada">Divorciada</option>
             </select>
             <div v-if="$v.patient.civilStatus.$error">
               <small class="text-danger" v-if="!$v.patient.civilStatus.required">Seleccione su estado civil.</small>
