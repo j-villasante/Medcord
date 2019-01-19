@@ -15,7 +15,7 @@
       <li>
         <div class="row">
           <div class="col-4">NOMBRES Y APELLIDOS:</div>
-          <div class="col-8">{{patient.name}} {{patient.fatherSurname}} {{patient.mmotherSurname}}</div>
+          <div class="col-8">{{patient.name}} {{patient.fatherSurname}} {{patient.motherSurname}}</div>
         </div>
       </li>
       <li>

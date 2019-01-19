@@ -96,6 +96,7 @@
               <option selected disabled value="">Seleccione</option>
               <option value="Soltera">Soltera</option>
               <option value="Casada">Casada</option>
+              <option value="Conviviente">Conviviente</option>
               <option value="Vuida">Vuida</option>
               <option value="Divorciada">Divorciada</option>
             </select>
