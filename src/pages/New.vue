@@ -6,10 +6,10 @@
         <div class="row">
           <div class="col-md-6 col-12 form-group">
             <label>Apellido Paterno</label>
-            <input type="text" 
-              class="form-control" 
+            <input type="text"
+              class="form-control"
               placeholder="Ingrese"
-              v-model.trim="patient.fatherSurname" 
+              v-model.trim="patient.fatherSurname"
               v-on:blur="$v.patient.fatherSurname.$touch()"
               :class="{ 'is-invalid': $v.patient.fatherSurname.$error }">
             <div v-if="$v.patient.fatherSurname.$error">
@@ -19,10 +19,10 @@
           </div>
           <div class="col-md-6 col-12 form-group">
             <label>Apellido Materno</label>
-            <input type="text" 
-              class="form-control" 
+            <input type="text"
+              class="form-control"
               placeholder="Ingrese"
-              v-model.trim="patient.motherSurname" 
+              v-model.trim="patient.motherSurname"
               v-on:blur="$v.patient.motherSurname.$touch()"
               :class="{ 'is-invalid': $v.patient.motherSurname.$error }">
             <div v-if="$v.patient.motherSurname.$error">
@@ -34,10 +34,10 @@
         <div class="row">
           <div class="col-md-8 col-12 form-group">
             <label>Nombres</label>
-            <input type="text" 
-              class="form-control" 
-              placeholder="Ingrese" 
-              v-model.trim="patient.name" 
+            <input type="text"
+              class="form-control"
+              placeholder="Ingrese"
+              v-model.trim="patient.name"
               v-on:blur="$v.patient.name.$touch()"
               :class="{ 'is-invalid': $v.patient.name.$error }">
             <div v-if="$v.patient.name.$error">
@@ -47,10 +47,10 @@
           </div>
           <div class="col-md-4 col-12 form-group">
             <label>Telefono/Celular</label>
-            <input type="number" 
-              class="form-control" 
+            <input type="number"
+              class="form-control"
               placeholder="Ingrese"
-              v-model.trim="patient.phone" 
+              v-model.trim="patient.phone"
               v-on:blur="$v.patient.phone.$touch()"
               :class="{ 'is-invalid': $v.patient.phone.$error }">
             <div v-if="$v.patient.phone.$error">
@@ -62,7 +62,7 @@
           <div class="col-md-4 col-12 form-group">
             <label>Sexo</label>
             <select class="form-control"
-              v-model.trim="patient.sex" 
+              v-model.trim="patient.sex"
               v-on:blur="$v.patient.sex.$touch()"
               :class="{ 'is-invalid': $v.patient.sex.$error }">
               <option selected disabled value="">Seleccione</option>
@@ -75,12 +75,12 @@
           </div>
           <div class="col-md-4 col-12 form-group">
             <label>Fecha de nacimiento</label>
-            <datepicker 
-              input-class='form-control' 
+            <datepicker
+              input-class='form-control'
               language='es'
               :disabled="disabled"
               :initialView="'year'"
-              v-model.trim="patient.birthday" 
+              v-model.trim="patient.birthday"
               v-on:blur="$v.patient.birthday.$touch()"
               :class="{ 'is-invalid': $v.patient.birthday.$error }" />
             <div v-if="$v.patient.birthday.$error">
@@ -90,7 +90,7 @@
           <div class="col-md-4 col-12 form-group">
             <label>Estado civil</label>
             <select class="form-control"
-              v-model.trim="patient.civilStatus" 
+              v-model.trim="patient.civilStatus"
               v-on:blur="$v.patient.civilStatus.$touch()"
               :class="{ 'is-invalid': $v.patient.civilStatus.$error }">
               <option selected disabled value="">Seleccione</option>
@@ -109,7 +109,7 @@
           <div class="col-md-4 col-12 form-group">
             <label>Tipo de documento</label>
             <select class="form-control"
-              v-model.trim="patient.documentType" 
+              v-model.trim="patient.documentType"
               v-on:blur="$v.patient.documentType.$touch()"
               :class="{ 'is-invalid': $v.patient.documentType.$error }">
               <option selected disabled value="">Seleccione</option>
@@ -123,11 +123,11 @@
           </div>
           <div class="col-md-8 col-12 form-group">
             <label>Numero de documento</label>
-            <input 
-              type="text" 
-              class="form-control" 
+            <input
+              type="text"
+              class="form-control"
               placeholder="Ingrese"
-              v-model.trim="patient.document" 
+              v-model.trim="patient.document"
               v-on:blur="$v.patient.document.$touch()"
               :class="{ 'is-invalid': $v.patient.document.$error }">
             <div v-if="$v.patient.document.$error">
@@ -138,11 +138,11 @@
         <div class="row">
           <div class="col-12 form-group">
             <label>Domicilio</label>
-            <input 
-              type="text" 
-              class="form-control" 
+            <input
+              type="text"
+              class="form-control"
               placeholder="Ingrese"
-              v-model.trim="patient.address" 
+              v-model.trim="patient.address"
               v-on:blur="$v.patient.address.$touch()"
               :class="{ 'is-invalid': $v.patient.address.$error }">
             <div v-if="$v.patient.address.$error">
@@ -153,8 +153,8 @@
         <div class="row">
           <div class="col-12 form-group">
             <label>Referencia</label>
-            <input type="text" 
-              class="form-control" 
+            <input type="text"
+              class="form-control"
               placeholder="Ingrese"
               v-model.trim="patient.addressReference" >
           </div>
@@ -162,11 +162,11 @@
         <div class="row">
           <div class="col-md-6 col-12 form-group">
             <label>Procedencia</label>
-            <input 
-              type="text" 
-              class="form-control" 
+            <input
+              type="text"
+              class="form-control"
               placeholder="Ingrese"
-              v-model.trim="patient.residence" 
+              v-model.trim="patient.residence"
               v-on:blur="$v.patient.residence.$touch()"
               :class="{ 'is-invalid': $v.patient.residence.$error }">
             <div v-if="$v.patient.residence.$error">
@@ -175,9 +175,9 @@
           </div>
           <div class="col-md-6 col-12 form-group">
             <label>Lugar de nacimiento</label>
-            <input type="text" 
-              class="form-control" 
-              placeholder="Ingrese"v-model.trim="patient.nacionality" 
+            <input type="text"
+              class="form-control"
+              placeholder="Ingrese"v-model.trim="patient.nacionality"
               v-on:blur="$v.patient.nacionality.$touch()"
               :class="{ 'is-invalid': $v.patient.nacionality.$error }">
             <div v-if="$v.patient.nacionality.$error">
@@ -188,11 +188,11 @@
         <div class="row">
           <div class="col-md-6 col-12 form-group">
             <label>Ocupación</label>
-            <input 
-              type="text" 
-              class="form-control" 
+            <input
+              type="text"
+              class="form-control"
               placeholder="Ingrese"
-              v-model.trim="patient.occupation" 
+              v-model.trim="patient.occupation"
               v-on:blur="$v.patient.occupation.$touch()"
               :class="{ 'is-invalid': $v.patient.occupation.$error }">
             <div v-if="$v.patient.occupation.$error">
@@ -202,7 +202,7 @@
           <div class="col-md-6 col-12 form-group">
             <label>Grado de instrucción</label>
             <select class="form-control"
-              v-model.trim="patient.degree" 
+              v-model.trim="patient.degree"
               v-on:blur="$v.patient.degree.$touch()"
               :class="{ 'is-invalid': $v.patient.degree.$error }">
               <option selected disabled value="">Seleccione</option>
@@ -286,8 +286,8 @@ export default {
           })
         })
           .then(() => db.collection('patients').add(this.patient))
-          .then(() => {
-            this.$root.setRoute('/')
+          .then((docRef) => {
+            this.$root.setRoute('/record/' + docRef.id)
           })
           .catch(error => {
             this.saveBut.message = 'Guardar'
