@@ -6,12 +6,12 @@
       </div>
       <div class="col-md-4">
         <div class="input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text">
+          <input v-model="searchValue" type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Apellidos" v-on:keyup.enter="search">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" v-on:click="search">
               <img src="../assets/icons/ic_search_black_24px.svg">
-            </div>
+            </button>
           </div>
-          <input v-model="searchValue" type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Documento">
         </div>
       </div>
     </div>
@@ -151,7 +151,6 @@ import { differenceInYears } from 'date-fns'
 
 const db = fire.firestore()
 let bk = null
-let timeout = null
 
 export default {
   data: () => ({
@@ -179,31 +178,26 @@ export default {
       message: 'Eliminar'
     }
   }),
-  watch: {
-    searchValue (val) {
-      clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        if (val === '') {
-          this.visitors = bk
-        } else {
-          const [ father, mother ] = val.trim().split(' ')
-          let query = db.collection('visitors')
-            .where('fatherSurname', '==', father)
-          if (mother) {
-            query = query.where('motherSurname', '==', mother)
-          }
-          query
-            .limit(20)
-            .get()
-            .then((snap) => {
-              this.visitors = []
-              snap.forEach(this.resultAdapter)
-            })
-        }
-      }, 1000)
-    }
-  },
   methods: {
+    search () {
+      if (this.searchValue === '') {
+        this.visitors = bk
+      } else {
+        const [ father, mother ] = this.searchValue.trim().split(' ')
+        let query = db.collection('visitors')
+          .where('fatherSurname', '==', father)
+        if (mother) {
+          query = query.where('motherSurname', '==', mother)
+        }
+        query
+          .limit(20)
+          .get()
+          .then((snap) => {
+            this.visitors = []
+            snap.forEach(this.resultAdapter)
+          })
+      }
+    },
     editVisitor (visitor) {
       this.currentEditingId = visitor.id
       this.visitor.motherSurname = visitor.motherSurname

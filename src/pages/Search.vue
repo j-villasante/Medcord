@@ -6,12 +6,12 @@
       </div>
       <div class="col-md-4">
         <div class="input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text">
+          <input v-model="searchValue" type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Apellidos" v-on:keyup.enter="search">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" v-on:click="search">
               <img src="../assets/icons/ic_search_black_24px.svg">
-            </div>
+            </button>
           </div>
-          <input v-model="searchValue" type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Documento">
         </div>
       </div>
     </div>
@@ -50,43 +50,37 @@ import { differenceInYears } from 'date-fns'
 
 const db = fire.firestore()
 let bk = null
-let timeout = null
 
 export default {
   data: () => ({
     patients: [],
     searchValue: ''
   }),
-  watch: {
-    searchValue (val) {
-      clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        if (val === '') {
-          this.patients = bk
-        } else {
-          const [ father, mother ] = val.trim().split(' ')
-          let query = db.collection('patients')
-            .where('fatherSurname', '==', father)
-          if (mother) {
-            query = query.where('motherSurname', '==', mother)
-          }
-          query
-            .limit(20)
-            .get()
-            .then((snap) => {
-              this.patients = []
-              snap.forEach(this.resultAdapter)
-            })
-        }
-      }, 1000)
-    }
-  },
   methods: {
     resultAdapter (doc) {
       let data = doc.data()
       data.id = doc.id
       data.age = differenceInYears(new Date(), data.birthday)
       this.patients.push(data)
+    },
+    search () {
+      if (this.searchValue === '') {
+        this.patients = bk
+      } else {
+        const [ father, mother ] = this.searchValue.trim().split(' ')
+        let query = db.collection('patients')
+          .where('fatherSurname', '==', father)
+        if (mother) {
+          query = query.where('motherSurname', '==', mother)
+        }
+        query
+          .limit(20)
+          .get()
+          .then((snap) => {
+            this.patients = []
+            snap.forEach(this.resultAdapter)
+          })
+      }
     }
   },
   mounted () {
