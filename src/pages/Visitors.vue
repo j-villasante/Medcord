@@ -6,12 +6,12 @@
       </div>
       <div class="col-md-4">
         <div class="input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text">
+          <input v-model="searchValue" type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Apellidos" v-on:keyup.enter="search">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" v-on:click="search">
               <img src="../assets/icons/ic_search_black_24px.svg">
-            </div>
+            </button>
           </div>
-          <input v-model="searchValue" type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Documento">
         </div>
       </div>
     </div>
@@ -42,10 +42,10 @@
         <div class="row">
           <div class="col-md-6 col-12 form-group">
             <label>Apellido Paterno</label>
-            <input type="text" 
-              class="form-control" 
+            <input type="text"
+              class="form-control"
               placeholder="Ingrese"
-              v-model.trim="visitor.fatherSurname" 
+              v-model.trim="visitor.fatherSurname"
               v-on:blur="$v.visitor.fatherSurname.$touch()"
               :class="{ 'is-invalid': $v.visitor.fatherSurname.$error }">
             <div v-if="$v.visitor.fatherSurname.$error">
@@ -55,10 +55,10 @@
           </div>
           <div class="col-md-6 col-12 form-group">
             <label>Apellido Materno</label>
-            <input type="text" 
-              class="form-control" 
+            <input type="text"
+              class="form-control"
               placeholder="Ingrese"
-              v-model.trim="visitor.motherSurname" 
+              v-model.trim="visitor.motherSurname"
               v-on:blur="$v.visitor.motherSurname.$touch()"
               :class="{ 'is-invalid': $v.visitor.motherSurname.$error }">
             <div v-if="$v.visitor.motherSurname.$error">
@@ -70,10 +70,10 @@
         <div class="row">
           <div class="col-md-8 col-12 form-group">
             <label>Nombres</label>
-            <input type="text" 
-              class="form-control" 
-              placeholder="Ingrese" 
-              v-model.trim="visitor.name" 
+            <input type="text"
+              class="form-control"
+              placeholder="Ingrese"
+              v-model.trim="visitor.name"
               v-on:blur="$v.visitor.name.$touch()"
               :class="{ 'is-invalid': $v.visitor.name.$error }">
             <div v-if="$v.visitor.name.$error">
@@ -83,10 +83,10 @@
           </div>
           <div class="col-md-4 col-12 form-group">
             <label>Telefono/Celular</label>
-            <input type="number" 
-              class="form-control" 
+            <input type="number"
+              class="form-control"
               placeholder="Ingrese"
-              v-model.trim="visitor.phone" 
+              v-model.trim="visitor.phone"
               v-on:blur="$v.visitor.phone.$touch()"
               :class="{ 'is-invalid': $v.visitor.phone.$error }">
             <div v-if="$v.visitor.phone.$error">
@@ -97,12 +97,12 @@
         <div class="row">
           <div class="col-md-4 col-12 form-group">
             <label>Fecha de nacimiento</label>
-            <datepicker 
-              input-class='form-control' 
+            <datepicker
+              input-class='form-control'
               language='es'
               :disabled="disabled"
               :initialView="'year'"
-              v-model.trim="visitor.birthday" 
+              v-model.trim="visitor.birthday"
               v-on:blur="$v.visitor.birthday.$touch()"
               :class="{ 'is-invalid': $v.visitor.birthday.$error }" />
             <div v-if="$v.visitor.birthday.$error">
@@ -111,11 +111,11 @@
           </div>
           <div class="col-md-8 col-12 form-group">
             <label>Domicilio</label>
-            <input 
-              type="text" 
-              class="form-control" 
+            <input
+              type="text"
+              class="form-control"
               placeholder="Ingrese"
-              v-model.trim="visitor.address" 
+              v-model.trim="visitor.address"
               v-on:blur="$v.visitor.address.$touch()"
               :class="{ 'is-invalid': $v.visitor.address.$error }">
             <div v-if="$v.visitor.address.$error">
@@ -126,12 +126,12 @@
         <div class="row">
           <div class="col-12 form-group">
             <label>Referencia</label>
-            <input type="text" 
-              class="form-control" 
+            <input type="text"
+              class="form-control"
               placeholder="Ingrese"
               v-model.trim="visitor.addressReference" >
           </div>
-        </div>     
+        </div>
         <div class="row my-3">
           <div class="col text-center">
             <button type="button" class="btn btn-danger float-left" v-on:click="deleteVisitor" :disabled="deleteBut.disabled">{{deleteBut.message}}</button>
@@ -146,28 +146,11 @@
 <script>
 import Datepicker from 'vuejs-datepicker'
 import fire from '../fire.js'
-import Fuse from 'fuse.js'
 import { required, minLength, numeric } from 'vuelidate/lib/validators'
 import { differenceInYears } from 'date-fns'
 
 const db = fire.firestore()
-
-const fuseOptions = {
-  shouldSort: true,
-  threshold: 0.6,
-  location: 0,
-  distance: 100,
-  maxPatternLength: 32,
-  minMatchCharLength: 1,
-  keys: [
-    'fatherSurname',
-    'motherSurname'
-  ]
-}
-
-let fuse = null
 let bk = null
-let timeout = null
 
 export default {
   data: () => ({
@@ -195,19 +178,26 @@ export default {
       message: 'Eliminar'
     }
   }),
-  watch: {
-    searchValue (val) {
-      clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        if (val === '') {
-          this.visitors = bk
-        } else {
-          this.visitors = fuse.search(val)
-        }
-      }, 1000)
-    }
-  },
   methods: {
+    search () {
+      if (this.searchValue === '') {
+        this.visitors = bk
+      } else {
+        const [ father, mother ] = this.searchValue.trim().split(' ')
+        let query = db.collection('visitors')
+          .where('fatherSurname', '==', father)
+        if (mother) {
+          query = query.where('motherSurname', '==', mother)
+        }
+        query
+          .limit(20)
+          .get()
+          .then((snap) => {
+            this.visitors = []
+            snap.forEach(this.resultAdapter)
+          })
+      }
+    },
     editVisitor (visitor) {
       this.currentEditingId = visitor.id
       this.visitor.motherSurname = visitor.motherSurname
@@ -241,37 +231,27 @@ export default {
       this.deleteBut.disabled = true
       this.deleteBut.message = '•••'
     },
-    setOffLoading() {
+    setOffLoading () {
       this.updateBut.disabled = false
       this.updateBut.message = 'Actualizar'
       this.deleteBut.disabled = false
       this.deleteBut.message = 'Eliminar'
     },
-    updateData() {
+    resultAdapter (doc) {
+      let data = doc.data()
+      data.id = doc.id
+      data.age = differenceInYears(new Date(), data.birthday)
+      this.visitors.push(data)
+    },
+    updateData () {
       this.visitors = []
-      let visitorsRef = db.collection('visitors')
-      let acumulator = (list = []) => {
-        return (snap) => {
-          snap.forEach(doc => {
-            let data = doc.data()
-            data.id = doc.id
-
-            data.age = differenceInYears(new Date(), data.birthday)
-            list.push(data)
-          })
-          return list
-        }
-      }
-      visitorsRef.orderBy('createdAt', 'desc').limit(20).get()
-        .then(acumulator(this.visitors))
-        .then(list => {
-          bk = list
-        })
-
-      db.collection('visitors').get()
-        .then(acumulator())
-        .then(list => {
-          fuse = new Fuse(list, fuseOptions)
+      this.searchValue = ''
+      db.collection('visitors')
+        .orderBy('createdAt', 'desc')
+        .limit(20).get()
+        .then(snap => {
+          snap.forEach(this.resultAdapter)
+          bk = [ ...this.visitors ]
         })
     }
   },

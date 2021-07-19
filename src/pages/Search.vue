@@ -6,12 +6,12 @@
       </div>
       <div class="col-md-4">
         <div class="input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text">
+          <input v-model="searchValue" type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Apellidos" v-on:keyup.enter="search">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" v-on:click="search">
               <img src="../assets/icons/ic_search_black_24px.svg">
-            </div>
+            </button>
           </div>
-          <input v-model="searchValue" type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Documento">
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
                 <span v-if="p.sex === 'masculino'">Hombre</span>
                 <span v-else>Mujer</span>
                 <span>de {{p.age}} años</span>
-              </div>              
+              </div>
               <div class="col-6">
                 <h5 class="text-right"><small>{{p.documentType}}</small> {{p.document}}</h5>
               </div>
@@ -46,69 +46,51 @@
 <script>
 import VueLink from '../components/VueLink.vue'
 import fire from '../fire.js'
-import Fuse from 'fuse.js'
 import { differenceInYears } from 'date-fns'
 
 const db = fire.firestore()
-const fuseOptions = {
-  shouldSort: true,
-  threshold: 0.6,
-  location: 0,
-  distance: 100,
-  maxPatternLength: 32,
-  minMatchCharLength: 1,
-  keys: [
-    'fatherSurname',
-    'motherSurname',
-    'document'
-  ]
-}
-
-let fuse = null
 let bk = null
-let timeout = null
 
 export default {
   data: () => ({
     patients: [],
     searchValue: ''
   }),
-  watch: {
-    searchValue (val) {
-      clearTimeout(timeout)
-      timeout = setTimeout(() => {
-        if (val === '') {
-          this.patients = bk
-        } else {
-          this.patients = fuse.search(val)
+  methods: {
+    resultAdapter (doc) {
+      let data = doc.data()
+      data.id = doc.id
+      data.age = differenceInYears(new Date(), data.birthday)
+      this.patients.push(data)
+    },
+    search () {
+      if (this.searchValue === '') {
+        this.patients = bk
+      } else {
+        const [ father, mother ] = this.searchValue.trim().split(' ')
+        let query = db.collection('patients')
+          .where('fatherSurname', '==', father)
+        if (mother) {
+          query = query.where('motherSurname', '==', mother)
         }
-      }, 1000)
+        query
+          .limit(20)
+          .get()
+          .then((snap) => {
+            this.patients = []
+            snap.forEach(this.resultAdapter)
+          })
+      }
     }
   },
   mounted () {
-    let patientsRef = db.collection('patients')
-    let acumulator = (list = []) => {
-      return (snap) => {
-        snap.forEach(doc => {
-          let data = doc.data()
-          data.id = doc.id
-
-          data.age = differenceInYears(new Date(), data.birthday)
-          list.push(data)
-        })
-        return list
-      }
-    }
-    patientsRef.orderBy('createdAt', 'desc').limit(20).get()
-      .then(acumulator(this.patients))
-      .then(list => {
-        bk = list
-      })
-
-    db.collection('patients').get()
-      .then(acumulator())
-      .then(list => {
-        fuse = new Fuse(list, fuseOptions)
+    db.collection('patients')
+      .orderBy('createdAt', 'desc')
+      .limit(20)
+      .get()
+      .then((snap) => {
+        snap.forEach(this.resultAdapter)
+        bk = [ ...this.patients ]
       })
   },
   components: {
