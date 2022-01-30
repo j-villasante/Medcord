@@ -36,7 +36,7 @@
         </div>
       </div>
     </div>
-    <modal name="edit-visitor" height="auto" :scrollable="true">
+    <modal name="edit-visitor" height="auto" style="{overflow: 'visible'}">
       <div class="container">
         <h4 class="mt-3">Visitante</h4>
         <div class="row">
@@ -82,20 +82,6 @@
             </div>
           </div>
           <div class="col-md-4 col-12 form-group">
-            <label>Telefono/Celular</label>
-            <input type="number"
-              class="form-control"
-              placeholder="Ingrese"
-              v-model.trim="visitor.phone"
-              v-on:blur="$v.visitor.phone.$touch()"
-              :class="{ 'is-invalid': $v.visitor.phone.$error }">
-            <div v-if="$v.visitor.phone.$error">
-              <small class="text-danger" v-if="!$v.visitor.phone.required">Ingrese su telefono.</small>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 col-12 form-group">
             <label>Fecha de nacimiento</label>
             <datepicker
               input-class='form-control'
@@ -107,6 +93,20 @@
               :class="{ 'is-invalid': $v.visitor.birthday.$error }" />
             <div v-if="$v.visitor.birthday.$error">
               <small class="text-danger" v-if="!$v.visitor.birthday.required">Ingrese su fecha de nacimiento.</small>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-12 form-group">
+            <label>Telefono/Celular</label>
+            <input type="number"
+              class="form-control"
+              placeholder="Ingrese"
+              v-model.trim="visitor.phone"
+              v-on:blur="$v.visitor.phone.$touch()"
+              :class="{ 'is-invalid': $v.visitor.phone.$error }">
+            <div v-if="$v.visitor.phone.$error">
+              <small class="text-danger" v-if="!$v.visitor.phone.required">Ingrese su telefono.</small>
             </div>
           </div>
           <div class="col-md-8 col-12 form-group">
@@ -204,7 +204,7 @@ export default {
       this.visitor.fatherSurname = visitor.fatherSurname
       this.visitor.name = visitor.name
       this.visitor.phone = visitor.phone
-      this.visitor.birthday = visitor.birthday
+      this.visitor.birthday = new Date(visitor.birthday.seconds * 1000)
       this.visitor.address = visitor.address
       this.visitor.addressReference = visitor.addressReference
       this.$modal.show('edit-visitor')
@@ -240,7 +240,7 @@ export default {
     resultAdapter (doc) {
       let data = doc.data()
       data.id = doc.id
-      data.age = differenceInYears(new Date(), data.birthday)
+      data.age = differenceInYears(new Date(), new Date(data.birthday.seconds * 1000))
       this.visitors.push(data)
     },
     updateData () {
@@ -282,3 +282,8 @@ export default {
   }
 }
 </script>
+<style>
+.vdp-datepicker__calendar {
+  left: -129px;
+}
+</style>

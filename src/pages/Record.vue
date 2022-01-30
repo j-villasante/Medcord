@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="text-right text-muted"><small>Creado el {{patient.createdAtFormatted}}</small></div>
-      <div class="text-right text-muted"><small>Modificado el {{patient.updatedAtFormatted || '---'}}</small></div>
+      <div class="text-right text-muted" v-if="patient.updatedAtFormatted"><small>Modificado el {{patient.updatedAtFormatted}}</small></div>
       <div class="row">
         <div class="col-md-3">
           <div class="col-12">
@@ -32,7 +32,7 @@
               <div><b>{{patient.documentType}}</b> {{patient.document}}</div>
             </div>
             <field-edit title="Dirección" :value="patient.address" name="address" :document="dbDocument" />
-            <field-edit title="Referencia" :value="patient.addressReference" name="email" :document="dbDocument" />
+            <field-edit title="Referencia" :value="patient.addressReference" name="addressReference" :document="dbDocument" />
             <div class="row"><b>Estado civil</b></div>
             <div class="row mb-2">{{patient.civilStatus}}</div>
             <field-edit title="Lugar de nacimiento" :value="patient.nacionality" name="nacionality" :document="dbDocument" />
@@ -151,6 +151,13 @@ export default {
           }
         ]
       })
+    },
+    formatDate (fireStoreDate) {
+      if (fireStoreDate) {
+        return format(new Date(fireStoreDate.seconds * 1000), 'D [de] MMMM [de] YYYY [a las] h:mm a', { locale: eslocale })
+      } else {
+        return undefined
+      }
     }
   },
   mounted () {
@@ -159,11 +166,12 @@ export default {
     patientDoc.onSnapshot(doc => {
       let data = doc.data()
       if (data) {
+        const birthday = new Date(data.birthday.seconds * 1000)
         this.patient = data
-        this.patient.age = differenceInYears(new Date(), this.patient.birthday)
-        this.patient.birthday = `${this.patient.birthday.getDate()}/${this.patient.birthday.getMonth() + 1}/${this.patient.birthday.getFullYear()}`
-        this.patient.createdAtFormatted = format(this.patient.createdAt, 'D [de] MMMM [de] YYYY [a las] h:mm a', { locale: eslocale })
-        this.patient.updatedAtFormatted = format(this.patient.updatedAt, 'D [de] MMMM [de] YYYY [a las] h:mm a', { locale: eslocale })
+        this.patient.age = differenceInYears(new Date(), birthday)
+        this.patient.birthday = `${birthday.getDate()}/${birthday.getMonth() + 1}/${birthday.getFullYear()}`
+        this.patient.createdAtFormatted = this.formatDate(this.patient.createdAt)
+        this.patient.updatedAtFormatted = this.formatDate(this.patient.updatedAt)
         this.loaded = true
       }
     })
@@ -173,7 +181,7 @@ export default {
       entriesSnap.forEach(doc => {
         let data = doc.data()
         this.entries.push({
-          time: format(data.time, 'D MMM YY [\n] hh:mm a', { locale: eslocale }),
+          time: format(new Date(data.time.seconds), 'D MMM YY [\n] hh:mm a', { locale: eslocale }),
           entry: data.entry,
           document: doc.ref
         })

@@ -138,7 +138,7 @@ export default {
   },
   computed: {
     createdAt () {
-      return format(this.patient.createdAt, 'DD/MM/YYYY')
+      return format(new Date(this.patient.createdAt.seconds * 1000), 'DD/MM/YYYY')
     }
   }
 }

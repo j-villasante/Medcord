@@ -60,7 +60,7 @@ export default {
     resultAdapter (doc) {
       let data = doc.data()
       data.id = doc.id
-      data.age = differenceInYears(new Date(), data.birthday)
+      data.age = differenceInYears(new Date(), new Date(data.birthday.seconds * 1000))
       this.patients.push(data)
     },
     search () {
